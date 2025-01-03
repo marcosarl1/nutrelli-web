@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
+@CrossOrigin("*")
 public class LoginController {
 
     private final LoginService loginService;
@@ -22,10 +23,8 @@ public class LoginController {
     public ResponseEntity<Employee> login(@RequestBody LoginDTO loginDTO) {
         try {
             Employee employee = loginService.authLogin(loginDTO.getEmail(), loginDTO.getPassword());
-            System.out.println(employee);
             return ResponseEntity.ok(employee);
         } catch (EmployeeNotFoundException e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
