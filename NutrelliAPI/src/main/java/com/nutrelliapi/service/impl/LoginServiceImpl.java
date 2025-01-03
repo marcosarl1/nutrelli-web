@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
             throw new EmployeeNotFoundException("Funcionário com email: " + email + " não encontrado");
         }
 
-        if (!password.trim().equals(employeeToLogin.getPassword().trim())) {
+        if (!password.equals(employeeToLogin.getPassword())) {
             throw new EmployeeNotFoundException("Senha incorreta");
         }
 
