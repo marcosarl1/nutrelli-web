@@ -1,12 +1,16 @@
 package com.nutrelliapi.controller;
 
-import com.nutrelliapi.dto.LoginDTO;
+import com.nutrelliapi.dto.EmployeeDTO;
 import com.nutrelliapi.exception.EmployeeNotFoundException;
 import com.nutrelliapi.model.Employee;
+import com.nutrelliapi.security.JwtTokenFilter;
 import com.nutrelliapi.service.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/login")
@@ -20,12 +24,19 @@ public class LoginController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Employee> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> login(@RequestBody EmployeeDTO employeeDTO) {
         try {
-            Employee employee = loginService.authLogin(loginDTO.getEmail(), loginDTO.getPassword());
-            return ResponseEntity.ok(employee);
-        } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            Employee employee = loginService.authLogin(employeeDTO.getEmail(), employeeDTO.getPassword());
+            String token = JwtTokenFilter.generateToken(employeeDTO.getEmail());
+            Map<String, Object> res = new HashMap<>();
+            res.put("token", token);
+            res.put("employee", employee);
+            return ResponseEntity.ok(res);
+        } catch (EmployeeNotFoundException ex) {
+            Map<String, Object> errorRes = new HashMap<>();
+            errorRes.put("message", ex.getMessage());
+            errorRes.put("status", HttpStatus.UNAUTHORIZED.value());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorRes);
         }
     }
 }
