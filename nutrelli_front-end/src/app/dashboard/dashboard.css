@@ -1,0 +1,19 @@
+main {
+    transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    main {
+        margin-left: 0!important;
+        margin-top: 60px !important;
+    }
+}
+
+@media (min-width: 769px) {
+    main.sidebar-open {
+        margin-left: 280px;
+    }
+    main.sidebar-closed {
+        margin-left: 80px;
+    }
+}

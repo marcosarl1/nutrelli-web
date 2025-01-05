@@ -1,0 +1,51 @@
+.sidebar-desktop {
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+}
+
+.hover-effect {
+    transition: all 0.2s ease;
+}
+
+.hover-effect:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.offcanvas {
+    width: 280px;
+}
+
+.z-3 {
+    z-index: 1031;
+}
+
+.nav-link {
+    transition: all 0.3s ease;
+}
+
+.nav-link.active {
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .sidebar-desktop {
+        display: none;
+    }
+    main {
+        padding-top: 70px;
+    }
+}
