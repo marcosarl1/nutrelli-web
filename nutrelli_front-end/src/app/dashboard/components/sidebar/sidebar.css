@@ -1,5 +1,12 @@
+.sidebar-logo {
+    transition: width 0.3s ease;
+}
+
+
 .sidebar-desktop {
     background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    height: 100vh;
+    transition: width 0.3s ease;
 }
 
 .hover-effect {

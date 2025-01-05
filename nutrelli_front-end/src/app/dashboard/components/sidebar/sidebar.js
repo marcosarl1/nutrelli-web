@@ -15,15 +15,12 @@ export default function Sidebar({isOpen, setIsOpen}) {
     const [showOffCanvas, setShowOffCanvas] = useState(false);
     const router = useRouter();
 
-    const menuItems = useMemo(() => [{
-        title: 'Produtos',
-        icon: <Box size={20}/>,
-        href: '/dashboard/produtos'
-    }, {title: 'Pedidos', icon: <ShoppingCart size={20}/>, href: '/dashboard/pedidos'}, {
-        title: 'Clientes',
-        icon: <Users size={20}/>,
-        href: '/dashboard/clientes'
-    }, {title: 'Estoque', icon: <Layers size={20}/>, href: '/dashboard/estoque'},], []);
+    const menuItems = useMemo(() => [
+        {title: 'Produtos', icon: <Box size={20}/>, href: '/dashboard/produtos'},
+        {title: 'Pedidos', icon: <ShoppingCart size={20}/>, href: '/dashboard/pedidos'},
+        {title: 'Clientes', icon: <Users size={20}/>, href: '/dashboard/clientes'},
+        {title: 'Estoque', icon: <Layers size={20}/>, href: '/dashboard/estoque'},
+    ], []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -66,8 +63,7 @@ export default function Sidebar({isOpen, setIsOpen}) {
                             alt="Nutrelli Logo"
                             width={isOpen ? 120 : 60}
                             height={isOpen ? 120 : 60}
-                            className="img-fluid"
-                            style={{transition: 'width 0.3s ease'}}
+                            className="img-fluid sidebar-logo"
                             priority/>
                     </div>
                 </Link>
@@ -82,9 +78,7 @@ export default function Sidebar({isOpen, setIsOpen}) {
                     {isOpen ? <PanelLeftClose size={20}/> : <PanelLeftOpen size={20}/>}
                 </Button>
             </div>
-
         )}
-
         <Nav className="flex-column px-2">
             {menuItems.map((item) => {
                 const isActive = activeItem === item.href;
@@ -110,7 +104,6 @@ export default function Sidebar({isOpen, setIsOpen}) {
         </Nav>
         <hr className="my-3"/>
         <div className="px-3 mt-auto mb-3">
-
             <Button
                 variant="danger"
                 onClick={handleLogout}
@@ -121,16 +114,11 @@ export default function Sidebar({isOpen, setIsOpen}) {
         </div>
     </>);
 
-
     return (<>
         <div
-            className={'sidebar-desktop d-none d-md-flex flex-column border-end shadow-sm'}
+            className={'sidebar-desktop d-none d-md-flex flex-column border-end shadow-sm position-fixed'}
             style={{
                 width: isOpen ? '280px' : '80px',
-                height: '100vh',
-                position: 'fixed',
-                transition: 'width 0.3s ease',
-                zIndex: 1030
             }}>
             <SidebarContent isOffcanvas={false}/>
         </div>
