@@ -6,16 +6,17 @@ import com.nutrelliapi.model.Employee;
 import com.nutrelliapi.security.JwtTokenFilter;
 import com.nutrelliapi.service.LoginService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/login")
 public class LoginController {
 
     private final LoginService loginService;
@@ -24,7 +25,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping("")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody EmployeeDTO employeeDTO, HttpServletResponse response) {
         try {
             Employee employee = loginService.authLogin(employeeDTO.getEmail(), employeeDTO.getPassword());
@@ -47,5 +48,21 @@ public class LoginController {
             errorRes.put("status", HttpStatus.UNAUTHORIZED.value());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorRes);
         }
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<?> auth(HttpServletRequest request) {
+        String token = JwtTokenFilter.extractToken(request);
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .header("WWW-Authenticate", "Bearer realm=\"access\"")
+                    .body(Map.of("valid", false, "message", "Token não encontrado"));
+        }
+
+        if (JwtTokenFilter.validateToken(token)) {
+            Authentication auth = JwtTokenFilter.getAuth(token);
+            return ResponseEntity.ok(Map.of("valid", true, "email", auth.getName()));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("valid", false, "message", "Token inválido"));
     }
 }

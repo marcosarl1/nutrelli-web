@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 .sign(Algorithm.HMAC256(SECRET_KEY));
     }
 
-    private boolean validateToken(String token) {
+    public static boolean validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             JWT.require(algorithm)
@@ -52,7 +52,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
     }
 
-    private String extractToken(HttpServletRequest request) {
+    public static String extractToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -64,7 +64,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private Authentication getAuth(String token) {
+    public static Authentication getAuth(String token) {
         DecodedJWT decodedJWT = JWT.decode(token);
         String email = decodedJWT.getSubject();
         return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
