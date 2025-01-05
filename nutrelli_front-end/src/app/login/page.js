@@ -1,11 +1,13 @@
 'use client';
 
-import Image from 'next/image'
+import './login.css';
+import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {useState} from "react";
-import Logo from '../../../public/nutrelli-logo.png'
-import { Eye, EyeOff} from "lucide-react";
+import Logo from '../../../public/nutrelli-logo.png';
+import {Eye, EyeOff, Lock, Mail} from "lucide-react";
 import {login} from "@/services/loginService";
+import {Alert, Button, Card, Col, Container, Form, FormControl, InputGroup, Row, Spinner} from "react-bootstrap";
 
 
 export default function Login() {
@@ -43,76 +45,98 @@ export default function Login() {
     }
 
     return (
-        <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-12 col-md-6 col-lg-4">
-                        <div className="card border-0 shadow-lg">
+        <Container fluid className="login-container min-vh-100 d-flex align-items-center justify-content-center p-3">
+            <Row className="justify-content-center w-100">
+                <Col xs={12} sm={10} md={8} lg={6} xl={4}>
+                    <Card className="border-0 shadow-lg login-card"
+                          style={{
+                              background: 'rgba(255, 255, 255, 0.95',
+                              backdropFilter: 'blur(10px)'
+                          }}>
+                        <Card.Body className="p-4 p-md-5">
                             <div className="text-center mb-4">
-                                <div className="rounded-circle d-inline-block mt-3 shadow bg-white">
+                                <div
+                                    className="logo-wrapper rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm bg-white">
                                     <Image src={Logo} alt="Nutrelli Logo"
                                            className="img-fluid"
                                            id="logo"
-                                           width={200}
-                                           height={200}
+                                           width={150}
+                                           height={150}
                                            priority/>
                                 </div>
                             </div>
-                            <div className="card-body p-4">
-                                <div className="text-center mb-4">
-                                    <h1 className="h3 mb-2 fw-bold">Bem-vindo!</h1>
-                                    <p className="text-muted">Faça login</p>
-                                </div>
-                                <div className="card-body px-4 py-4">
-                                    {error && (
-                                        <div className="alert alert-danger" role="alert">{error}</div>
-                                    )}
-                                </div>
-                                <form onSubmit={handleSubmit}
-                                      className={`needs-validation ${wasValidated ? 'was-validated' : ''}`}
-                                      noValidate>
-                                    <div className="mb-3">
-                                        <label htmlFor="email" className="form-label">E-mail</label>
-                                        <div className="input-group has-validation">
-                                            <input type="email" id="email" className="form-control"
-                                                   value={email}
-                                                   placeholder="Insira seu e-mail"
-                                                   onChange={(e) => setEmail(e.target.value)}
-                                                   required/>
-                                            <div className="invalid-feedback">Por favor, insira um e-mail válido.</div>
-                                        </div>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label htmlFor="password" className="form-label">Senha</label>
-                                        <div className="input-group has-validation">
-                                            <input type={showPassword ? 'text' : 'password'}
-                                                   id="password"
-                                                   className="form-control"
-                                                   value={password}
-                                                   placeholder="Insira sua senha"
-                                                   onChange={(e) => setPassword(e.target.value)}
-                                                   required/>
-                                            <button type="button" className="btn btn-outline-secondary"
-                                                    onClick={() => setShowPassword(!showPassword)}>
-                                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} /> }
-                                            </button>
-                                            <div className="invalid-feedback">A senha é obrigatória</div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" className="btn btn-danger w-100 mb-3"
-                                            disabled={loading}>{loading ? (
+                            <div className="text-center mb-4">
+                                <h1 className="h3 mb-2 fw-bold">Bem-vindo!</h1>
+                                <p className="text-muted">Entre com suas credenciais</p>
+                            </div>
+                            {error && (
+                                <Alert variant="danger">
+                                    {error}
+                                </Alert>
+                            )}
+                            <Form noValidate validated={wasValidated} onSubmit={handleSubmit} className="login-form">
+                                <Form.Group className="mb-4" controlId="email">
+                                    <Form.Label className="text-muted fw-medium">E-mail</Form.Label>
+                                    <InputGroup hasValidation>
+                                        <InputGroup.Text className="bg-light">
+                                            <Mail size={18} className="text-muted"/>
+                                        </InputGroup.Text>
+                                        <FormControl
+                                            type="email"
+                                            placeholder="Insira seu e-mail"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                            className="py-2"/>
+                                        <FormControl.Feedback type="invalid">Por favor, insira um e-mail
+                                            válido.</FormControl.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group className="mb-4" controlId="password">
+                                    <Form.Label className="text-muted fw-medium">Senha</Form.Label>
+                                    <InputGroup hasValidation>
+                                        <InputGroup.Text className="bg-light">
+                                            <Lock size={18} className="text-muted"/>
+                                        </InputGroup.Text>
+                                        <FormControl
+                                            type={showPassword ? 'text' : 'password'}
+                                            placeholder="Insira sua senha"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                            className="py-2"/>
+                                        <Button
+                                            variant="light"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="border">
+                                            {showPassword ? <EyeOff size={18} className="text-muted"/> :
+                                                <Eye size={18} className="text-muted"/>}
+                                        </Button>
+                                        <FormControl.Feedback type="invalid">A senha é
+                                            obrigatória</FormControl.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Button type="submit" variant="danger"
+                                        className="w-100 py-2 mt-4 position-relative overflow-hidden"
+                                        disabled={loading}>
+                                    {loading ? (
                                         <>
-                                            <span className="spinner-border spinner-border-sm me-2" role="status"
-                                                  aria-hidden="true"></span>
+                                            <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                                className="me-2"
+                                            />
                                             Entrando...
                                         </>
-                                    ) : 'Entrar'}</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                    ) : 'Entrar'}</Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 }
