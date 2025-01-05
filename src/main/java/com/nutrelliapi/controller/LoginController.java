@@ -16,7 +16,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/login")
-@CrossOrigin("*")
 public class LoginController {
 
     private final LoginService loginService;
