@@ -1,10 +1,12 @@
 'use client';
 
 import Image from 'next/image'
-import Logo from '@/../public/nutrelli-logo.png'
-import {useState} from "react";
-import {login} from "@/services/loginService";
 import {useRouter} from 'next/navigation';
+import {useState} from "react";
+import Logo from '../../../public/nutrelli-logo.png'
+import { Eye, EyeOff} from "lucide-react";
+import {login} from "@/services/loginService";
+
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -92,8 +94,7 @@ export default function Login() {
                                                    required/>
                                             <button type="button" className="btn btn-outline-secondary"
                                                     onClick={() => setShowPassword(!showPassword)}>
-                                                {showPassword ? (<i className="bi bi-eye"></i>) :
-                                                    (<i className="bi bi-eye-slash"></i>)}
+                                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} /> }
                                             </button>
                                             <div className="invalid-feedback">A senha é obrigatória</div>
                                         </div>
