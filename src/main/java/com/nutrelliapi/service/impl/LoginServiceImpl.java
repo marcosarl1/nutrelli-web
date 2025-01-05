@@ -17,12 +17,9 @@ public class LoginServiceImpl implements LoginService {
 
     public Employee authLogin (String email, String password) {
         Employee employeeToLogin = employeeRepository.findEmployeeByEmail(email);
-        if (employeeToLogin == null) {
-            throw new EmployeeNotFoundException("Funcionário com email: " + email + " não encontrado");
-        }
 
-        if (!password.equals(employeeToLogin.getPassword())) {
-            throw new EmployeeNotFoundException("Senha incorreta");
+        if (employeeToLogin == null || !password.equals(employeeToLogin.getPassword())) {
+            throw new EmployeeNotFoundException("Credenciais inválidas, tente novamente");
         }
 
         return employeeToLogin;
