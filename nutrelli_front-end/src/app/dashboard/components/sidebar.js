@@ -7,9 +7,12 @@ import {useEffect, useState} from "react";
 import {PanelLeftOpen, PanelLeftClose, Box, ShoppingCart, Users, Layers, LogOut} from "lucide-react";
 import Logo from '../../../../public/nutrelli-logo.png';
 import './sidebar.css'
+import { logout } from "@/services/loginService";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar({isOpen, setIsOpen}) {
     const [activeItem, setActiveItem] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         const handleResize = () => {
@@ -20,6 +23,15 @@ export default function Sidebar({isOpen, setIsOpen}) {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [setIsOpen]);
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            await router.push('/login');
+        } catch (error) {
+            console.error('Erro ao fazer logout: ', error);
+        }
+    }
 
     const menuItems = [
         {title: 'Produtos', icon: <Box size={20}/>, href: '/dashboard/produtos'},
@@ -91,7 +103,7 @@ export default function Sidebar({isOpen, setIsOpen}) {
             </nav>
             <hr/>
             <div className="p-3 mt-auto">
-                <button className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center py-2">
+                <button onClick={handleLogout} className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center py-2">
                     <LogOut size={20}/>
                     <span className={`ms-2 ${!isOpen ? 'd-none' : ''}`}
                           style={{}}>Sair</span>
