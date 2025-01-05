@@ -48,11 +48,7 @@ export default function Login() {
         <Container fluid className="login-container min-vh-100 d-flex align-items-center justify-content-center p-3">
             <Row className="justify-content-center w-100">
                 <Col xs={12} sm={10} md={8} lg={6} xl={4}>
-                    <Card className="border-0 shadow-lg login-card"
-                          style={{
-                              background: 'rgba(255, 255, 255, 0.95',
-                              backdropFilter: 'blur(10px)'
-                          }}>
+                    <Card className="login-card  rounded-4 border-0 shadow-lg login-card">
                         <Card.Body className="p-4 p-md-5">
                             <div className="text-center mb-4">
                                 <div
