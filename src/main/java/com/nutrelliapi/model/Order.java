@@ -29,17 +29,17 @@ public class Order {
     @JoinColumn(name = "id_tipo_pagamento")
     private PaymentType paymentType;
 
-    @OneToMany(mappedBy = "order")
-    private List<ProductOrdered> productOrdereds;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductOrdered> orderedProducts;
 
-    public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<ProductOrdered> productOrdereds) {
+    public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<ProductOrdered> orderedProducts) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.totalValue = totalValue;
         this.paymentType = paymentType;
-        this.productOrdereds = productOrdereds;
+        this.orderedProducts = orderedProducts;
     }
 
     public Order() {}
@@ -92,11 +92,11 @@ public class Order {
         this.paymentType = paymentType;
     }
 
-    public List<ProductOrdered> getProductOrdereds() {
-        return productOrdereds;
+    public List<ProductOrdered> getOrderedProducts() {
+        return orderedProducts;
     }
 
-    public void setProductOrdereds(List<ProductOrdered> productOrdereds) {
-        this.productOrdereds = productOrdereds;
+    public void setOrderedProducts(List<ProductOrdered> productOrdereds) {
+        this.orderedProducts = productOrdereds;
     }
 }
