@@ -3,10 +3,10 @@ package com.nutrelliapi.service.impl;
 import com.nutrelliapi.exception.OrderNotFoundException;
 import com.nutrelliapi.model.Order;
 import com.nutrelliapi.repository.OrderRepository;
+import com.nutrelliapi.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {

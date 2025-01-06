@@ -1,9 +1,8 @@
-package com.nutrelliapi.service.impl;
+package com.nutrelliapi.service;
 
 import com.nutrelliapi.model.Order;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderService {
     List<Order> findAllOrders();

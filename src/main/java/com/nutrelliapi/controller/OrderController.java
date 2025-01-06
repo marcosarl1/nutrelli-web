@@ -1,7 +1,7 @@
 package com.nutrelliapi.controller;
 
 import com.nutrelliapi.model.Order;
-import com.nutrelliapi.service.impl.OrderService;
+import com.nutrelliapi.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
