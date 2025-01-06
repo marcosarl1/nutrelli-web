@@ -1,9 +1,9 @@
 package com.nutrelliapi.repository;
 
-import com.nutrelliapi.model.ProductOrdered;
+import com.nutrelliapi.model.OrderedProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductOrderedRepository extends JpaRepository<ProductOrdered, Integer> {
+public interface OrderedProductRepository extends JpaRepository<OrderedProduct, Integer> {
 }

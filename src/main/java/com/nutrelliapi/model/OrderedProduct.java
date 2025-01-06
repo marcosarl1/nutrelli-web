@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "produto_pedido")
-public class ProductOrdered {
+public class OrderedProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class ProductOrdered {
     @Column(name = "quantidade")
     private int quantity;
 
-    public ProductOrdered(Integer id, Order order, Product product, int quantity) {
+    public OrderedProduct(Integer id, Order order, Product product, int quantity) {
         this.id = id;
         this.order = order;
         this.product = product;
         this.quantity = quantity;
     }
 
-    public ProductOrdered() {}
+    public OrderedProduct() {}
 
     public Integer getId() {
         return id;

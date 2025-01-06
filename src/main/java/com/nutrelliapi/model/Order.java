@@ -30,9 +30,9 @@ public class Order {
     private PaymentType paymentType;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductOrdered> orderedProducts;
+    private List<OrderedProduct> orderedProducts;
 
-    public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<ProductOrdered> orderedProducts) {
+    public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<OrderedProduct> orderedProducts) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
@@ -92,11 +92,11 @@ public class Order {
         this.paymentType = paymentType;
     }
 
-    public List<ProductOrdered> getOrderedProducts() {
+    public List<OrderedProduct> getOrderedProducts() {
         return orderedProducts;
     }
 
-    public void setOrderedProducts(List<ProductOrdered> productOrdereds) {
+    public void setOrderedProducts(List<OrderedProduct> productOrdereds) {
         this.orderedProducts = productOrdereds;
     }
 }
