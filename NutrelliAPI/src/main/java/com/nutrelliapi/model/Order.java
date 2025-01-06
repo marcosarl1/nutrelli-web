@@ -29,7 +29,7 @@ public class Order {
     @JoinColumn(name = "id_tipo_pagamento")
     private PaymentType paymentType;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "order")
     private List<ProductOrdered> productOrdereds;
 
     public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<ProductOrdered> productOrdereds) {
