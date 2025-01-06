@@ -1,5 +1,6 @@
 package com.nutrelliapi.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class Order {
     private PaymentType paymentType;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderedProduct> orderedProducts;
 
     public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<OrderedProduct> orderedProducts) {
