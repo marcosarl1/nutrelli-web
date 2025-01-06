@@ -8,8 +8,12 @@ public enum OrderStatus {
     FINALIZADO("Finalizado"),
     CANCELADO("Cancelado");
 
-    private String description;
+    private final String description;
     OrderStatus(String description) {
         this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
