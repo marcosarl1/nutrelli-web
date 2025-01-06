@@ -36,9 +36,9 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
     @Override
     public PaymentType updatePaymentType(Integer id, PaymentType paymentType) {
         return paymentTypeRepository.findById(id)
-                .map(payTipe -> {
-                    payTipe.setId(paymentType.getId());
-                    return paymentTypeRepository.save(payTipe);
+                .map(existingPayType -> {
+                    paymentType.setId(id);
+                    return paymentTypeRepository.save(paymentType);
                 })
                 .orElseThrow(() -> new PaymentTypeNotFoundException("Tipo de pagamento não encontrado"));
     }
