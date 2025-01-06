@@ -2,6 +2,7 @@ package com.nutrelliapi.service.impl;
 
 import com.nutrelliapi.exception.OrderNotFoundException;
 import com.nutrelliapi.model.Order;
+import com.nutrelliapi.model.OrderStatus;
 import com.nutrelliapi.repository.OrderRepository;
 import com.nutrelliapi.service.OrderService;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,16 @@ public class OrderServiceImpl implements OrderService {
                     order.setId(id);
                     return orderRepository.save(order);
                 }).orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado"));
+    }
+
+    @Override
+    public Order updateOrderStatus(Integer id, OrderStatus orderStatus) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado"));
+        if (order.getOrderStatus() == OrderStatus.FINALIZADO || order.getOrderStatus() == OrderStatus.CANCELADO) {
+            throw new OrderNotFoundException("Não é possível alterar o status de um pedido finalizado ou cancelado");
+        }
+        order.setOrderStatus(orderStatus);
+        return orderRepository.save(order);
     }
 
     @Override

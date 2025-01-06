@@ -1,6 +1,7 @@
 package com.nutrelliapi.controller;
 
 import com.nutrelliapi.model.Order;
+import com.nutrelliapi.model.OrderStatus;
 import com.nutrelliapi.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,11 @@ public class OrderController {
     @PutMapping("/update/{id}")
     public Order updateOrder(@PathVariable Integer id, @RequestBody Order order) {
         return orderService.updateOrder(id, order);
+    }
+
+    @PutMapping("/{id}/status")
+    public Order updateOrderStatus(@PathVariable Integer id, @RequestParam OrderStatus orderStatus) {
+        return orderService.updateOrderStatus(id, orderStatus);
     }
 
     @DeleteMapping("/delete/{id}")
