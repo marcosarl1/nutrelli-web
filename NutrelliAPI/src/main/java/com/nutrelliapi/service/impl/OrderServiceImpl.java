@@ -1,5 +1,6 @@
 package com.nutrelliapi.service.impl;
 
+import com.nutrelliapi.exception.OrderNotFoundException;
 import com.nutrelliapi.model.Order;
 import com.nutrelliapi.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> findOrderById(Integer id) {
-        return orderRepository.findById(id);
+    public Order findOrderById(Integer id) {
+        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado"));
     }
 
     @Override
@@ -33,22 +34,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateOrder(Integer id, Order order) {
-        Optional<Order> originalOrder = findOrderById(id);
-        if (originalOrder.isPresent()) {
-            Order orderToUpdate = originalOrder.get();
-            orderToUpdate.setCustomer(order.getCustomer());
-            orderToUpdate.setOrderDate(order.getOrderDate());
-            orderToUpdate.setOrderStatus(order.getOrderStatus());
-            orderToUpdate.setTotalValue(order.getTotalValue());
-            orderToUpdate.setPaymentType(order.getPaymentType());
-            orderToUpdate.setProductOrdereds(order.getProductOrdereds());
-            return orderRepository.save(orderToUpdate);
-        }
-        return null;
+        return orderRepository.findById(id)
+                .map(existingOrder -> {
+                    order.setId(id);
+                    return orderRepository.save(order);
+                }).orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado"));
     }
 
     @Override
     public void deleteOrder(Integer id) {
+        if (orderRepository.findById(id).isEmpty()) {
+            throw new OrderNotFoundException("Pedido não encontrado");
+        }
         orderRepository.deleteById(id);
     }
 }
