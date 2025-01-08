@@ -6,7 +6,7 @@ export default function MobileHeader() {
     const {toggleSidebar} = useSidebar();
     return (
         <div className="lg:hidden fixed top-0 left-0 right-0 z-50">
-            <header className="bg-gradient-to-br from-orange-200 to to-orange-100 px-4 py-3 flex items-center justify-start shadow-sm">
+            <header className="bg-gradient-to-br from-orange-100 to to-orange-100 px-4 py-3 flex items-center justify-start shadow-sm">
                 <Button
                     variant="ghost"
                     onClick={toggleSidebar}
