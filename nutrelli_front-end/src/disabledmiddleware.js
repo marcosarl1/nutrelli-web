@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { authenticate } from "@/services/loginService";
 
-export async function middleware(req) {
+export async function disabledmiddleware(req) {
     const jwtToken = req.cookies.get('jwt_token');
     const {pathname} = req.nextUrl;
 
