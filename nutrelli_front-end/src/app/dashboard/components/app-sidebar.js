@@ -3,11 +3,7 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarGroup,
-    SidebarGroupContent,
     SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
     SidebarSeparator,
     SidebarTrigger,
     useSidebar
@@ -35,8 +31,8 @@ import {
 
 export function AppSidebar() {
     const {open, toggleSidebar, isMobile} = useSidebar();
-    const menuItems = useMemo(() => [{
-        title: 'Produtos', icon: <Box className="h-5 w-5"/>, href: '/dashboard/produtos'},
+    const menuItems = useMemo(() => [
+        {title: 'Produtos', icon: <Box className="h-5 w-5"/>, href: '/dashboard/produtos'},
         {title: 'Pedidos', icon: <ShoppingCart className="h-5 w-5"/>, href: '/dashboard/pedidos'},
         {title: 'Clientes', icon: <Users className="h-5 w-5"/>, href: '/dashboard/clientes'},
         {title: 'Estoque', icon: <Layers className="h-5 w-5"/>, href: '/dashboard/estoque'},], []);
