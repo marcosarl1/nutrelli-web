@@ -7,10 +7,11 @@ import Logo from '../../../public/nutrelli-logo.png';
 import {AlertCircle, Eye, EyeOff, Loader2, Lock, Mail} from "lucide-react";
 import {login} from "@/services/loginService";
 import {Card, CardContent} from "@/components/ui/card";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+import {Alert, AlertDescription} from "@/components/ui/alert";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
+import {cn} from "@/lib/utils";
 
 export default function Login() {
     const [formData, setFormData] = useState({
@@ -60,7 +61,7 @@ export default function Login() {
 
         try {
             setLoading(true);
-            const user = await login(formData.email, formData.password);
+            await login(formData.email, formData.password);
             router.push('/dashboard');
         } catch (error) {
             setError(error.message || 'Ocorreu um erro ao fazer login. Tente novamente.');
@@ -111,9 +112,9 @@ export default function Login() {
                                         placeholder="seu@email.com"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={`pl-10 py-2 transition-colors ${touched.email && getFieldError('email') ?
-                                            'border-red-500 focus:border-red-500' : ''}`}
-                                        aria-invalid={!!getFieldError('email')}/>
+                                        className={cn("pl-10 py-2 transition-colors",
+                                            touched.email && getFieldError('email') ? "border-red-500 focus:border-red-500" : "")}
+                                    aria-invalid={!!getFieldError('email')}/>
                                 </div>
                                 <div>
                                     {touched.email && getFieldError('email') && (
