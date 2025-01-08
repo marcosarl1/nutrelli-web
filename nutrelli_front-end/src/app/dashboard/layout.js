@@ -1,17 +1,18 @@
 'use client';
 
-import Sidebar from "@/app/dashboard/components/sidebar/sidebar";
-import {useState} from "react"
 import "./dashboard.css"
+import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
+import {AppSidebar} from "@/app/dashboard/components/app-sidebar";
+import MobileHeader from "@/app/dashboard/components/mobile-header";
 
-export default function DashboardLayout({children}) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+export default function DashboardLayout({ children }) {
     return (
-        <div className="d-flex">
-            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
-            <main className={`d-flex flex-grow-1 p-4 w-100 ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+        <SidebarProvider>
+            <AppSidebar />
+            <MobileHeader/>
+            <main className="p-4">
                 {children}
             </main>
-        </div>
+        </SidebarProvider>
     );
 }
