@@ -11,7 +11,7 @@ public class Product {
     private Integer id;
     
     @Column(name = "nome")
-    private String nome;
+    private String name;
     
     @Column(name = "preco")
     private Double price;
@@ -26,9 +26,9 @@ public class Product {
     @Column(name = "imagem")
     private byte[] image;
 
-    public Product(Integer id, String nome, Double price, ProductCategory productCategory, boolean available, byte[] image) {
+    public Product(Integer id, String name, Double price, ProductCategory productCategory, boolean available, byte[] image) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.price = price;
         this.productCategory = productCategory;
         this.available = available;
@@ -45,12 +45,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 
     public Double getPrice() {
