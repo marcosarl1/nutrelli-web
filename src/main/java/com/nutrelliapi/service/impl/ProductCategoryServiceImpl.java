@@ -5,9 +5,11 @@ import com.nutrelliapi.exception.ProductNotFoundException;
 import com.nutrelliapi.model.ProductCategory;
 import com.nutrelliapi.repository.ProductCategoryRepository;
 import com.nutrelliapi.service.ProductCategoryService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     private final ProductCategoryRepository productCategoryRepository;
