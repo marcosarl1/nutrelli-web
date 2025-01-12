@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }) {
         <SidebarProvider>
             <AppSidebar />
             <MobileHeader/>
-            <main className="flex-1 p-4 lg:p-6 m-14 lg:mt-0">
+            <main className="flex-1 p-4 lg:p-2 sm:m-14">
                 {children}
             </main>
         </SidebarProvider>
