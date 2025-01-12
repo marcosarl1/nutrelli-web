@@ -3,6 +3,8 @@ package com.nutrelliapi.controller;
 import com.nutrelliapi.model.Product;
 import com.nutrelliapi.service.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,18 @@ public class ProductController {
 
     @GetMapping("/page")
     public ResponseEntity<Page<Product>> findAllProductsPage(@RequestParam(defaultValue = "0") int page,
-                                                             @RequestParam(defaultValue = "10") int size) {
-        Page<Product> products = productService.findAllProductsPage(page, size);
+                                                             @RequestParam(defaultValue = "10") int size,
+                                                             @RequestParam(required = false) String query,
+                                                             @RequestParam(required = false) Integer categoryId) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products;
+        if (categoryId != null) {
+            products = productService.findProductsByProductCategory(categoryId, pageable);
+        } else if (query != null && !query.isEmpty()) {
+            products = productService.findAllProductsContaining(query, pageable);
+        } else {
+            products = productService.findAllProductsPage(pageable);
+        }
         return ResponseEntity.ok(products);
     }
 
@@ -35,12 +47,6 @@ public class ProductController {
     public ResponseEntity<Product> findProductBydId(@PathVariable Integer id) {
         Product product = productService.findProductById(id);
         return ResponseEntity.ok(product);
-    }
-
-    @GetMapping("search")
-    public ResponseEntity<List<Product>> findProductContaining(@RequestParam String query) {
-        List<Product> products = productService.findAllProductsContaining(query);
-        return ResponseEntity.ok(products);
     }
 
     @PostMapping("add")

@@ -30,13 +30,19 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Produto não encontrado"));
     }
 
-    public Page<Product> findAllProductsPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    @Override
+    public Page<Product> findAllProductsPage(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
 
-    public List<Product> findAllProductsContaining(String query) {
-        return productRepository.findProductsByNameContaining(query);
+    @Override
+    public Page<Product> findAllProductsContaining(String query, Pageable pageable) {
+        return productRepository.findProductsByNameContainingIgnoreCase(query, pageable);
+    }
+
+    @Override
+    public Page<Product> findProductsByProductCategory(Integer categoryId, Pageable pageable) {
+        return productRepository.findProductsByProductCategory_Id(categoryId, pageable);
     }
 
     @Override
