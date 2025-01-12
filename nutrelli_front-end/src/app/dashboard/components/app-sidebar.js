@@ -50,8 +50,7 @@ export function AppSidebar() {
     return (
         <Sidebar
         collapsible="icon">
-        <SidebarHeader className="px-2 py-3">
-
+        <SidebarHeader className="px-4 py-3">
             <div className={cn(open ? "flex items-center justify-between" : "flex flex-col items-center gap-4")}>
                 <Link href="/dashboard" className="flex items-center justify-center ">
                     <Image
@@ -66,7 +65,7 @@ export function AppSidebar() {
             </div>
         </SidebarHeader>
         <SidebarSeparator className="mb-2"/>
-        <SidebarContent className="flex-1 ">
+        <SidebarContent className="flex-1">
             <SidebarGroup>
                 <nav className="space-y-1">
                     {menuItems.map((item) => {
@@ -76,9 +75,9 @@ export function AppSidebar() {
                                 key={item.href}
                                 href={item.href}
                                 onClick={isMobile && toggleSidebar}
-                                className={cn("text-base mb-3 font-medium",
+                                className={cn("text-base font-normal",
                                     "hover:bg-gray-100 rounded-lg",
-                                    open ? "p-2 ml-2 flex items-center justify-between" : "p-1 flex flex-col items-center",)}>
+                                    open ? "p-2 m-3 flex items-center justify-between" : "p-1 flex flex-col items-center",)}>
                                 <div className="flex items-center">{item.icon}
                                     {open && <span className="ml-3 ">{item.title}</span>}
                                 </div>
