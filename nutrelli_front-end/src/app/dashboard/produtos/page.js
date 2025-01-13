@@ -64,6 +64,7 @@ export default function Products() {
     const fetchProducts = useCallback(async () => {
         try {
             setLoading(true);
+            const startTime = Date.now();
             const data = await productsService.findAllProducts(
                 pagination.currentPage - 1,
                 pagination.pageSize,
@@ -71,6 +72,10 @@ export default function Products() {
                 selectedCategory,
                 selectedAvailability
             );
+            const elapsed = Date.now() - startTime;
+            if (elapsed < 500) {
+                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
+            }
             setProducts(data.content);
             setPagination(prevState => ({
                 ...prevState,
@@ -109,6 +114,7 @@ export default function Products() {
             setLoading(true);
             await productsService.addProduct(formData);
             await fetchProducts();
+            setPagination(prevState => ({...prevState, currentPage: 1}));
         } catch (error) {
             setError(error.message);
         } finally {
@@ -121,6 +127,7 @@ export default function Products() {
             setLoading(true);
             await productsService.editProduct(formData.id, formData);
             await fetchProducts();
+            setPagination(prevState => ({...prevState, currentPage: 1}));
         } catch (error) {
             setError(error.message);
         } finally {
@@ -134,6 +141,7 @@ export default function Products() {
             await productsService.deleteProduct(selectedProduct.id);
             await fetchProducts();
             setSelectedProduct(null);
+            setPagination(prevState => ({...prevState, currentPage: 1}));
         } catch (error) {
             setError(error.message);
         } finally {
