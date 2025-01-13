@@ -5,7 +5,6 @@ import com.nutrelliapi.model.Product;
 import com.nutrelliapi.repository.ProductRepository;
 import com.nutrelliapi.service.ProductService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +42,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findProductsByProductCategory(Integer categoryId, Pageable pageable) {
         return productRepository.findProductsByProductCategory_Id(categoryId, pageable);
+    }
+
+    @Override
+    public Page<Product> findProductsByAvailable(boolean available, Pageable pageable) {
+        return productRepository.findProductsByAvailable(available, pageable);
     }
 
     @Override
