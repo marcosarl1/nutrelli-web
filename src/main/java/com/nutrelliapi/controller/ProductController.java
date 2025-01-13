@@ -30,13 +30,16 @@ public class ProductController {
     public ResponseEntity<Page<Product>> findAllProductsPage(@RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10") int size,
                                                              @RequestParam(required = false) String query,
-                                                             @RequestParam(required = false) Integer categoryId) {
+                                                             @RequestParam(required = false) Integer categoryId,
+                                                             @RequestParam(required = false) Boolean available) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products;
         if (categoryId != null) {
             products = productService.findProductsByProductCategory(categoryId, pageable);
         } else if (query != null && !query.isEmpty()) {
             products = productService.findAllProductsContaining(query, pageable);
+        } else if (available != null) {
+            products = productService.findProductsByAvailable(available, pageable);
         } else {
             products = productService.findAllProductsPage(pageable);
         }

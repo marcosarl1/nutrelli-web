@@ -10,6 +10,7 @@ public interface ProductService {
     List<Product> findAllProducts();
     Page<Product> findAllProductsPage(Pageable pageable);
     Page<Product> findProductsByProductCategory(Integer categoryId, Pageable pageable);
+    Page<Product> findProductsByAvailable(boolean available, Pageable pageable);
     Product findProductById(Integer id);
     Page<Product> findAllProductsContaining(String query, Pageable pageable);
     Product saveProduct(Product product);
