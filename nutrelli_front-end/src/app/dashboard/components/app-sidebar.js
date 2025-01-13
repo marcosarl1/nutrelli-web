@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "../../../../public/nutrelli-logo.png";
 import {useMemo} from "react";
-import {Box, Layers, LogOut, ShoppingCart, Users} from "lucide-react";
+import {Archive, House, LayoutDashboard, LogOut, ShoppingBasket, Store, Users} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {logout} from "@/services/loginService";
 import {useRouter, usePathname} from "next/navigation";
@@ -32,10 +31,11 @@ import {
 export function AppSidebar() {
     const {open, toggleSidebar, isMobile} = useSidebar();
     const menuItems = useMemo(() => [
-        {title: 'Produtos', icon: <Box className="h-5 w-5"/>, href: '/dashboard/produtos'},
-        {title: 'Pedidos', icon: <ShoppingCart className="h-5 w-5"/>, href: '/dashboard/pedidos'},
-        {title: 'Clientes', icon: <Users className="h-5 w-5"/>, href: '/dashboard/clientes'},
-        {title: 'Estoque', icon: <Layers className="h-5 w-5"/>, href: '/dashboard/estoque'},], []);
+        {title: 'Início', icon: <House className="h-5 w-5 text-red-700"/>, href: '/dashboard'},
+        {title: 'Produtos', icon: <Store className="h-5 w-5 text-red-700"/>, href: '/dashboard/produtos'},
+        {title: 'Pedidos', icon: <ShoppingBasket className="h-5 w-5 text-red-700"/>, href: '/dashboard/pedidos'},
+        {title: 'Clientes', icon: <Users className="h-5 w-5 text-red-700"/>, href: '/dashboard/clientes'},
+        {title: 'Estoque', icon: <Archive className="h-5 w-5 text-red-700"/>, href: '/dashboard/estoque'},], []);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -48,70 +48,73 @@ export function AppSidebar() {
         }
     }
     return (
-        <Sidebar
-        collapsible="icon">
-        <SidebarHeader className="px-4 py-3">
-            <div className={cn(open ? "flex items-center justify-between" : "flex flex-col items-center gap-4")}>
-                <Link href="/dashboard" className="flex items-center justify-center ">
-                    <Image
-                        src={Logo}
-                        alt="Nutrelli Logo"
-                        width={120}
-                        height={120}
-                        className="h-auto w-auto rounded-full bg-white shadow-md transition-all duration-700"
-                        priority/>
-                </Link>
-                <SidebarTrigger className={cn(open ? "ml-2" : "mt-4")}/>
-            </div>
-        </SidebarHeader>
-        <SidebarSeparator className="mb-2"/>
-        <SidebarContent className="flex-1">
-            <SidebarGroup>
-                <nav className="space-y-1">
-                    {menuItems.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (<div key={item.title}>
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                onClick={isMobile && toggleSidebar}
-                                className={cn("text-base font-normal",
-                                    "hover:bg-gray-100 rounded-lg",
-                                    open ? "p-2 m-3 flex items-center justify-between" : "p-1 flex flex-col items-center",)}>
-                                <div className="flex items-center">{item.icon}
-                                    {open && <span className="ml-3 ">{item.title}</span>}
-                                </div>
-                            </Link>
-                        </div>)
-                    })}
-                </nav>
-            </SidebarGroup>
-        </SidebarContent>
-        <SidebarSeparator/>
-        <SidebarFooter>
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button
-                        variant="destructive"
-                        className="w-full justify-center gap-2">
-                        <LogOut className="h-5 w-5"/>
-                        <span className={!open ? 'hidden' : 'block'}>Sair</span>
-                    </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Confirmar saída</AlertDialogTitle>
-                        <AlertDialogDescription>Tem certeza que deseja sair do
-                            sistema?</AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={handleLogout}
-                            className="bg-red-500 hover:bg-red-500/90">Sair</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </SidebarFooter>
-    </Sidebar>)
+        <Sidebar collapsible="icon">
+            <SidebarHeader>
+                <button onClick={toggleSidebar} className="flex justify-center items-center my-6">
+                    <LayoutDashboard className="h-5 w-5 text-red-700"/>
+                </button>
+                <div className={cn("mb-6", open ? "px-10 justify-between" : "p-1 flex flex-col items-center gap-4")}>
+                    <Link href="/dashboard" className="flex items-center justify-center ">
+                        <Image
+                            src={open ? '/nutrelli.svg' : '/nutrelli-icon.svg'}
+                            alt="Nutrelli Logo"
+                            width={open ? 190 : 50}
+                            height={open ? 90 : 50}
+                            style={{width: '100%', height: '100%'}}
+                            className="transition ease-linear"
+                            priority/>
+                    </Link>
+
+                </div>
+            </SidebarHeader>
+            <SidebarContent className="">
+                <SidebarGroup>
+                    <nav className="space-y-6">
+                        {menuItems.map((item) => {
+                            const isActive = pathname === item.href;
+                            return (<div key={item.title}>
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    onClick={isMobile && toggleSidebar}
+                                    className={cn("text-base font-normal",
+                                        "hover:bg-red-50 rounded-lg",
+                                        open ? "pl-7 py-2 m-3 flex items-center justify-between" : "p-1 py-2 flex flex-col items-center",
+                                        isActive && "text-red-700 font-medium bg-red-50")}>
+                                    <div className="flex items-center">{item.icon}
+                                        {open && <span className="ml-3 ">{item.title}</span>}
+                                    </div>
+                                </Link>
+                            </div>)
+                        })}
+                    </nav>
+                </SidebarGroup>
+            </SidebarContent>
+            <SidebarSeparator/>
+            <SidebarFooter>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button
+                            variant="destructive"
+                            className="w-full justify-center gap-2">
+                            <LogOut className="h-5 w-5"/>
+                            <span className={!open ? 'hidden' : 'block'}>Sair</span>
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Confirmar saída</AlertDialogTitle>
+                            <AlertDialogDescription>Tem certeza que deseja sair do
+                                sistema?</AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                                onClick={handleLogout}
+                                className="bg-red-500 hover:bg-red-500/90">Sair</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </SidebarFooter>
+        </Sidebar>)
 }
