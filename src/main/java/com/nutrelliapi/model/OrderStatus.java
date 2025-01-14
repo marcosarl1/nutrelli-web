@@ -3,17 +3,17 @@ package com.nutrelliapi.model;
 public enum OrderStatus {
     PENDENTE("Pendente"),
     EM_PREPARO("Em preparo"),
-    EM_ENTREGA("Em entrega"),
-    ENTREGUE("Entregue"),
+    PRONTO_PARA_RETIRADA("Pronto para retirada"),
     FINALIZADO("Finalizado"),
     CANCELADO("Cancelado");
 
-    private final String description;
-    OrderStatus(String description) {
-        this.description = description;
+    private final String value;
+    OrderStatus(String value) {
+        this.value = value;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public String toString() {
+        return value;
     }
 }
