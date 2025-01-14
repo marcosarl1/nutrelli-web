@@ -42,6 +42,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";
+import {useToast} from "@/hooks/use-toast";
 
 export default function Products() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -60,6 +61,7 @@ export default function Products() {
         totalPages: 1,
         totalElements: 0
     });
+    const { toast } = useToast();
 
     const fetchProducts = useCallback(async () => {
         try {
@@ -115,6 +117,9 @@ export default function Products() {
             await productsService.addProduct(formData);
             await fetchProducts();
             setPagination(prevState => ({...prevState, currentPage: 1}));
+            toast({
+                description: <span>&#x2705; Produto adicionado com sucesso!</span>,
+            });
         } catch (error) {
             setError(error.message);
         } finally {
@@ -128,6 +133,9 @@ export default function Products() {
             await productsService.editProduct(formData.id, formData);
             await fetchProducts();
             setPagination(prevState => ({...prevState, currentPage: 1}));
+            toast({
+                description: <span>&#x2705; Produto editado com sucesso!</span>,
+            });
         } catch (error) {
             setError(error.message);
         } finally {
@@ -142,6 +150,9 @@ export default function Products() {
             await fetchProducts();
             setSelectedProduct(null);
             setPagination(prevState => ({...prevState, currentPage: 1}));
+            toast({
+                description: <span>&#x2705; Produto deletado com sucesso!</span>,
+            });
         } catch (error) {
             setError(error.message);
         } finally {
