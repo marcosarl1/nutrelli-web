@@ -290,7 +290,7 @@ export default function Products() {
                                 <span className="sm:hidden">Disp.</span>
                                 <span className="hidden sm:inline">Disponibilidade</span>
                             </TableHead>
-                            <TableHead className="w-[100px]">Ações</TableHead>
+                            <TableHead className="w-0 sm:w-[100px]">Ações</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
