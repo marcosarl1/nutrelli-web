@@ -32,7 +32,6 @@ export default function Orders() {
     const [searchQuery, setSearchQuery] = useState('');
     const [orders, setOrders] = useState([]);
     const [statuses, setStatuses] = useState([]);
-    const [paymentTypes, setPaymentTypes] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -92,6 +91,48 @@ export default function Orders() {
         };
         fetchData()
     }, [fetchOrders, fetchOrderStatuses]);
+
+    const handleAddOrder = async (formData) => {
+        try {
+            setLoading(true);
+            console.log(formData);
+            await ordersService.addOrder(formData);
+            toast({
+                title: "Pedido adicionado com sucesso",
+                description: "O pedido foi salvo no sistema",
+            });
+            await fetchOrders()
+        } catch (error) {
+            toast({
+                title: "Erro ao adicionar pedido",
+                description: error.message,
+                variant: "destructive"
+            })
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleEditOrder = async (formData) => {
+        try {
+            setLoading(true);
+            console.log(formData);
+            await ordersService.editOrder(selectedOrder.id, formData);
+            toast({
+                title: "Pedido atualizado com sucesso",
+                description: "O pedido foi atualizado com sucesso"
+            });
+            await fetchOrders();
+        } catch (error) {
+            toast({
+                title: "Erro ao atualizar produto",
+                description: error.message,
+                variant: "destructive"
+            })
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const resetFilters = () => {
         setSearchQuery('');
@@ -170,7 +211,6 @@ export default function Orders() {
                         </DialogHeader>
                         <OrderForm
                             statuses={statuses}
-                            paymentTypes={paymentTypes}
                             onSubmit={async (formData) => {
                                 await handleAddOrder(formData);
                                 setIsDialogOpen(false);
@@ -223,10 +263,10 @@ export default function Orders() {
                                         {order.customer}
                                     </TableCell>
                                     <TableCell className={"hidden sm:table-cell"}>
-                                        {new Date(order.orderDate).toLocaleDateString()}
+                                        {new Date(order.orderDate + 'T00:00:00').toLocaleDateString()}
                                     </TableCell>
                                     <TableCell className={"sm:hidden"}>
-                                        {new Date(order.orderDate).toLocaleDateString('pt-BR', {
+                                        {new Date(order.orderDate + 'T00:00:00').toLocaleDateString('pt-BR', {
                                             day: '2-digit',
                                             month: '2-digit',
                                             year: '2-digit'
@@ -317,7 +357,10 @@ export default function Orders() {
                                     <TableCell>
                                         <Dialog>
                                             <DialogTrigger asChild>
-                                                <Button variant={"ghost"} className={"lg:px-1"}>
+                                                <Button
+                                                    variant={"ghost"}
+                                                    className={"lg:px-1"}
+                                                    onClick={() => setSelectedOrder(order)}>
                                                     <Edit className={"h-4 w-4"}/>
                                                     <span className={"hidden sm:inline"}>Editar</span>
                                                 </Button>
@@ -330,8 +373,10 @@ export default function Orders() {
                                                 <OrderForm
                                                     initialData={selectedOrder}
                                                     statuses={statuses}
-                                                    paymentTypes={paymentTypes}
-                                                    //onSubmit={}
+                                                    onSubmit={async (formData) => {
+                                                        await handleEditOrder(formData);
+                                                        setIsDialogOpen(false);
+                                                    }}
                                                     isSubmitting={loading}/>
                                             </DialogContent>
                                         </Dialog>
