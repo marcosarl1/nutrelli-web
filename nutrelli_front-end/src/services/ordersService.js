@@ -45,7 +45,7 @@ export const ordersService = {
 
     async addOrder(formData) {
         try {
-            const res = await api.post("/orders/add");
+            const res = await api.post("/orders/add", formData);
             return res.data;
         } catch (error) {
             if (error.response) {
