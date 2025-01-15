@@ -54,6 +54,7 @@ export default function Orders() {
                 pagination.currentPage - 1,
                 pagination.pageSize,
                 searchQuery,
+                selectedStatus
             );
             const elapsed = Date.now() - startTime;
             if (elapsed < 500) {
@@ -70,17 +71,42 @@ export default function Orders() {
         } finally {
             setLoading(false);
         }
-    }, [pagination.currentPage, pagination.pageSize, searchQuery])
+    }, [pagination.currentPage, pagination.pageSize, searchQuery, selectedStatus]);
+
+    const fetchOrderStatuses = useCallback(async () => {
+        try {
+            setLoading(true);
+            const data = await ordersService.findAllOrderStatuses();
+            setStatuses(data);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             await fetchOrders();
+            await fetchOrderStatuses()
         };
         fetchData()
-    }, [fetchOrders]);
+    }, [fetchOrders, fetchOrderStatuses]);
+
+    const resetFilters = () => {
+        setSearchQuery('');
+        setSelectedStatus(null);
+        setPagination(prevState => ({...prevState, currentPage: 1}));
+    }
 
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
+        setPagination(prevState => ({...prevState, currentPage: 1}));
+    }
+
+    const handleStatusSelect = (status) => {
+        setSearchQuery('');
+        setSelectedStatus(status);
         setPagination(prevState => ({...prevState, currentPage: 1}));
     }
 
@@ -121,10 +147,10 @@ export default function Orders() {
                             <DropdownMenuSeparator/>
                             {statuses.map((status) => (
                                 <DropdownMenuItem
-                                    key={status}
-                                    className={cn("cursor-pointer", selectedStatus === status ? "bg-blue-50" : "")}
+                                    key={status.name}
+                                    className={cn("cursor-pointer", selectedStatus && selectedStatus.name === status.name ? "bg-blue-50" : "")}
                                     onClick={() => handleStatusSelect(status)}>
-                                    {status}
+                                    {status.description}
                                 </DropdownMenuItem>
                             ))}
                         </DropdownMenuContent>
