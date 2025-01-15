@@ -104,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void updateExistingOrder(Order existingOrder, Order order) {
         existingOrder.setCustomer(order.getCustomer());
+        existingOrder.setOrderDate(order.getOrderDate());
         existingOrder.setOrderStatus(order.getOrderStatus());
         validatePaymentType(order);
         existingOrder.getOrderedProducts().clear();
