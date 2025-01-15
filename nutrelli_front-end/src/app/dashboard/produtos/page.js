@@ -43,6 +43,7 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 import {useToast} from "@/hooks/use-toast";
+import {Pagination} from "@/app/dashboard/components/pagination";
 
 export default function Products() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -384,60 +385,13 @@ export default function Products() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-gray-600 mb-4 sm:mb-0">
-                    Mostrando {products.length} de {pagination.totalElements} produtos
-                </p>
-                <div className="flex justify-center gap-1 sm:gap-2">
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        disabled={pagination.currentPage === 1}
-                        onClick={() => handlePageChange(pagination.currentPage - 1)}>
-                        <ChevronLeft className="h-4 w-4"/>
-                    </Button>
-                    {(() => {
-                        const totalPages = pagination.totalPages;
-                        const currentPage = pagination.currentPage;
-                        const pagesToShow = 3;
-                        let startPage = Math.max(1, Math.min(currentPage - Math.floor(pagesToShow / 2), totalPages - pagesToShow + 1));
-                        let endPage = Math.min(totalPages, startPage + pagesToShow - 1);
-
-                        if (endPage - startPage + 1 < pagesToShow) {
-                            startPage = Math.max(1, endPage - pagesToShow + 1);
-                        }
-
-                        const pages = [];
-                        for (let i = startPage; i <= endPage; i++) {
-                            pages.push(
-                                <Button variant={currentPage === i ? "outline" : "ghost"}
-                                        key={i}
-                                        onClick={() => handlePageChange(i)}>{i}</Button>
-                            );
-                        }
-
-                        if (startPage > 1) {
-                            pages.unshift(
-                                <span key={"start-ellipsis"} className="flex items-center px-2">...</span>
-                            );
-                        }
-                        if (endPage < totalPages) {
-                            pages.push(
-                                <span key={"end-ellipsis"} className="flex items-center px-2">...</span>
-                            );
-                        }
-
-                        return pages;
-                    })()}
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        disabled={pagination.currentPage === pagination.totalPages}
-                        onClick={() => handlePageChange(pagination.currentPage + 1)}>
-                        <ChevronRight className="h-4 w-4"/>
-                    </Button>
-                </div>
-            </div>
+            <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                totalElements={pagination.totalElements}
+                pageSize={pagination.pageSize}
+                onPageChange={handlePageChange}
+                itemsLabel={"produtos"}/>
             <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
