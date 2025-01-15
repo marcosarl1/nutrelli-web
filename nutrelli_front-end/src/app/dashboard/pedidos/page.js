@@ -342,8 +342,8 @@ export default function Orders() {
                                             </HoverCard>
                                         </div>
                                         <div className={"hidden sm:flex flex-col gap-1"}>
-                                            {order.orderedProducts.map((orderedProduct) => (
-                                                <div key={orderedProduct.productId}
+                                            {order.orderedProducts.map((orderedProduct, index) => (
+                                                <div key={`${order.id}-${orderedProduct.productId}-${index}`}
                                                      className={"flex items-center gap-2"}>
                                                     <span>{orderedProduct.productName}</span>
                                                     <Badge variant={"outline"}

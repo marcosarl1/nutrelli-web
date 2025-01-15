@@ -258,7 +258,7 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
             <div className={"space-y-2"}>
                 <Label>Produtos</Label>
                 {formData.orderedProducts.map((product, index) => (
-                    <div key={index} className={"flex flex-col gap-2"}>
+                    <div key={`${product.productId}-${index}}`} className={"flex flex-col gap-2"}>
                         <div className={"flex gap-2 items-start"}>
                             <Popover
                                 open={openCombobox[index]}
