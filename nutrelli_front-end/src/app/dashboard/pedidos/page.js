@@ -98,7 +98,7 @@ export default function Orders() {
             console.log(formData);
             await ordersService.addOrder(formData);
             toast({
-                title: "Pedido adicionado com sucesso",
+                title: <span>&#x2705; Pedido adicionado com sucesso</span>,
                 description: "O pedido foi salvo no sistema",
             });
             await fetchOrders()
@@ -119,7 +119,7 @@ export default function Orders() {
             console.log(formData);
             await ordersService.editOrder(selectedOrder.id, formData);
             toast({
-                title: "Pedido atualizado com sucesso",
+                title: <span>&#x2705; Pedido atualizado com sucesso</span>,
                 description: "O pedido foi atualizado com sucesso"
             });
             await fetchOrders();

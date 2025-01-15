@@ -119,7 +119,8 @@ export default function Products() {
             await fetchProducts();
             setPagination(prevState => ({...prevState, currentPage: 1}));
             toast({
-                description: <span>&#x2705; Produto adicionado com sucesso!</span>,
+                title: <span>&#x2705; Produto adicionado com sucesso!</span>,
+                description: "O produto foi adicionado com sucesso"
             });
         } catch (error) {
             setError(error.message);
@@ -135,7 +136,8 @@ export default function Products() {
             await fetchProducts();
             setPagination(prevState => ({...prevState, currentPage: 1}));
             toast({
-                description: <span>&#x2705; Produto editado com sucesso!</span>,
+                title: <span>&#x2705; Produto editado com sucesso!</span>,
+                description: "O produto foi adicionado com sucesso"
             });
         } catch (error) {
             setError(error.message);
