@@ -30,4 +30,40 @@ export const ordersService = {
             throw new Error('Erro desconhecido');
         }
     },
+
+    async findAllPaymentTypes() {
+        try {
+            const res = await api.get("/payment-type");
+            return res.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro ao carregar status de pedidos");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    },
+
+    async addOrder(formData) {
+        try {
+            const res = await api.post("/orders/add");
+            return res.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro ao carregar status de pedidos");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    },
+
+    async editOrder(id, formData) {
+        try {
+            const res = await api.put(`/orders/update/${id}`, formData);
+            return res.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro ao carregar status de pedidos");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    }
 }
