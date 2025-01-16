@@ -40,7 +40,7 @@ public class InventoryController {
         return ResponseEntity.ok(inventoryMapper.toDTO(inventory));
     }
 
-    @GetMapping("page")
+    @GetMapping("/page")
     public ResponseEntity<Page<InventoryDTO>> findAllInventoryPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -58,7 +58,7 @@ public class InventoryController {
         return ResponseEntity.ok(inventory.map(inventoryMapper::toDTO));
     }
 
-    @GetMapping("low-stock")
+    @GetMapping("/low-stock")
     public ResponseEntity<Page<InventoryDTO>> findLowStockItems(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -69,14 +69,14 @@ public class InventoryController {
         return ResponseEntity.ok(inventory.map(inventoryMapper::toDTO));
     }
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public ResponseEntity<InventoryDTO> saveInventory(@RequestBody InventoryDTO inventoryDTO) {
         Inventory inventory = inventoryMapper.toEntity(inventoryDTO);
         Inventory savedInventory = inventoryService.saveInventory(inventory);
         return new ResponseEntity<>(inventoryMapper.toDTO(savedInventory),HttpStatus.CREATED);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<InventoryDTO> updateInventory(
             @PathVariable Integer id,
             @RequestBody InventoryDTO inventoryDTO) {
@@ -93,7 +93,7 @@ public class InventoryController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteInventory(@PathVariable Integer id) {
         inventoryService.deleteInventory(id);
         return ResponseEntity.noContent().build();
