@@ -57,6 +57,13 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public void updateQuantity(Integer id, Double quantity) {
+        Inventory inventory = findInventoryById(id);
+        inventory.setQuantity(quantity);
+        inventoryRepository.save(inventory);
+    }
+
+    @Override
     public void deleteInventory(Integer id) {
         if (inventoryRepository.findById(id).isEmpty()) {
             throw new InventoryNotFoundException("Item do estoque não encontrado");
