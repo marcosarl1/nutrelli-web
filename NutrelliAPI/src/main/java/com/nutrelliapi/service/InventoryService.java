@@ -14,5 +14,6 @@ public interface InventoryService {
     Inventory findInventoryById(Integer id);
     Inventory saveInventory(Inventory inventory);
     Inventory updateInventory(Integer id, Inventory inventory);
+    void updateQuantity(Integer id, Double quantity);
     void deleteInventory(Integer id);
 }
