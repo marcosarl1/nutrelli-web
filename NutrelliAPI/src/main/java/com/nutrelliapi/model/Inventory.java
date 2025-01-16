@@ -25,9 +25,9 @@ public class Inventory {
 
     public Inventory() {}
 
-    public Inventory(Integer id, String nome, Double quantity, MeasurementUnit measurementUnit, Double minimumQuantity) {
+    public Inventory(Integer id, String name, Double quantity, MeasurementUnit measurementUnit, Double minimumQuantity) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.quantity = quantity;
         this.measurementUnit = measurementUnit;
         this.minimumQuantity = minimumQuantity;
@@ -41,12 +41,12 @@ public class Inventory {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getQuantity() {
