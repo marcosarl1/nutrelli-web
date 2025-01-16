@@ -34,7 +34,6 @@ export function AppSidebar() {
         {title: 'Início', icon: <House className="h-5 w-5 text-red-700"/>, href: '/dashboard'},
         {title: 'Produtos', icon: <Store className="h-5 w-5 text-red-700"/>, href: '/dashboard/produtos'},
         {title: 'Pedidos', icon: <ShoppingBasket className="h-5 w-5 text-red-700"/>, href: '/dashboard/pedidos'},
-        {title: 'Clientes', icon: <Users className="h-5 w-5 text-red-700"/>, href: '/dashboard/clientes'},
         {title: 'Estoque', icon: <Archive className="h-5 w-5 text-red-700"/>, href: '/dashboard/estoque'},], []);
     const router = useRouter();
     const pathname = usePathname();
