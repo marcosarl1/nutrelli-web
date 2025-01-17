@@ -23,18 +23,3 @@ export async function logout() {
         throw new Error('Erro desconhecido');
     }
 }
-
-
-export async function authenticate(token) {
-    try {
-        const res = await api.post('/auth',  {}, {
-            headers: {
-                Cookie: `jwt_token=${token}`
-            }
-        });
-        return res.status === 200;
-    } catch (error) {
-        console.error('Erro ao validar token', error);
-        return false;
-    }
-}
