@@ -1,7 +1,5 @@
 package com.nutrelliapi.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.nutrelliapi.dto.EmployeeDTO;
 import com.nutrelliapi.exception.EmployeeNotFoundException;
 import com.nutrelliapi.model.Employee;
@@ -12,9 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,16 +31,13 @@ public class LoginController {
             Employee employee = loginService.authLogin(employeeDTO.getEmail(), employeeDTO.getPassword());
             String token = JwtTokenFilter.generateToken(employeeDTO.getEmail());
 
-            ResponseCookie cookie = ResponseCookie.from("jwt_token", token)
-                    .httpOnly(true)
-                    .secure(true)
-                    .path("/")
-                    .partitioned(true)
-                    .maxAge(86400)
-                    .sameSite("None")
-                    .build();
-
-            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            Cookie cookie = new Cookie("jwt_token", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(86400);
+            cookie.setAttribute("SameSite", "None");
+            response.addCookie(cookie);
 
             Map<String, Object> res = new HashMap<>();
             res.put("token", token);
@@ -55,27 +48,6 @@ public class LoginController {
             errorRes.put("message", ex.getMessage());
             errorRes.put("status", HttpStatus.UNAUTHORIZED.value());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorRes);
-        }
-    }
-
-    @PostMapping("/auth/validate")
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.replace("Bearer ", "");
-        boolean isValid = JwtTokenFilter.validateToken(token);
-
-        if (isValid) {
-            DecodedJWT decodedJWT = JWT.decode(token);
-            String email = decodedJWT.getSubject();
-
-            Map<String, Object> res = new HashMap<>();
-            res.put("valid", true);
-            res.put("email", email);
-            return ResponseEntity.ok(res);
-        } else {
-            Map<String, Object> res = new HashMap<>();
-            res.put("valid", false);
-            res.put("message", "Token inválido ou expirado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
         }
     }
 }
