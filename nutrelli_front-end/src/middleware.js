@@ -3,7 +3,7 @@ import { authenticate } from "@/services/loginService";
 
 export async function middleware(req) {
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'development') {
         return NextResponse.next();
     }
 
@@ -33,5 +33,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-    matcher: ['/login','/dashboard/:path*'],
+    matcher: [ '/login','/dashboard/:path*'],
 };
