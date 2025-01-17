@@ -27,22 +27,3 @@ export async function logout() {
         throw new Error('Erro desconhecido');
     }
 }
-
-
-export async function verifyAuth(token) {
-    try {
-        const res = await api.post('/auth/validate', {}, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        console.log(res.data)
-        return {
-            authenticated: res.data.valid,
-            email: res.data.email
-        };
-    } catch (error) {
-        console.error('Erro ao validar token', error);
-        return { authenticated: false };
-    }
-}
