@@ -36,7 +36,7 @@ public class LoginController {
             cookie.setSecure(false); // Sem protocolo https no momento
             cookie.setPath("/");
             cookie.setMaxAge(86400);
-            cookie.setAttribute("SameSite", "None");
+            cookie.setAttribute("SameSite", "Lax");
             response.addCookie(cookie);
 
             Map<String, Object> res = new HashMap<>();
