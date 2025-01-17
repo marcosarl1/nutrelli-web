@@ -24,4 +24,14 @@ public class LoginServiceImpl implements LoginService {
 
         return employeeToLogin;
     }
+
+    @Override
+    public Employee findByEmail(String email) {
+        Employee employee =  employeeRepository.findEmployeeByEmail(email);
+        if (employee == null) {
+            throw new EmployeeNotFoundException("Funcionário não encontrado");
+        }
+
+        return employee;
+    }
 }
