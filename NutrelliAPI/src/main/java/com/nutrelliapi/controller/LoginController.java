@@ -33,10 +33,10 @@ public class LoginController {
 
             Cookie cookie = new Cookie("jwt_token", token);
             cookie.setHttpOnly(true);
-            cookie.setSecure(false); // Sem protocolo https no momento
+            cookie.setSecure(true);
             cookie.setPath("/");
             cookie.setMaxAge(86400);
-            cookie.setAttribute("SameSite", "Lax");
+            cookie.setAttribute("SameSite", "None");
             response.addCookie(cookie);
 
             Map<String, Object> res = new HashMap<>();
