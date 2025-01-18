@@ -142,7 +142,7 @@ export default function Inventory() {
         } catch (error) {
             toast({
                 title: "Erro",
-                description: error.message || "Erro ao atualizar item",
+                description: error.message || "Erro ao deletar item",
                 variant: "destructive"
             });
         } finally {
