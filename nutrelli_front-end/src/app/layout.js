@@ -3,10 +3,10 @@ import './globals.css';
 import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
-    weight: '400',
+
     subsets: ["latin"],
-    display:"swap",
-})
+    weight: ['400', '700']
+});
 
 export default function RootLayout({ children }) {
   return (
