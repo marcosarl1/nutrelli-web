@@ -7,7 +7,7 @@ export const inventoryService = {
             const params = new URLSearchParams({
                 page: page.toString(),
                 size: size.toString(),
-                ...(search && { name: search }),
+                ...(search && {name: search}),
                 lowStock: lowStock.toString(),
             });
 
@@ -16,6 +16,42 @@ export const inventoryService = {
         } catch (error) {
             if (error.response) {
                 throw new Error(error.response.message || "Erro carregar itens");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    },
+
+    async findAllMeasurementUnits() {
+        try {
+            const res = await api.get("/measurement-unit");
+            return res.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro carregar unidade de medidas");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    },
+
+    async addItem(formData) {
+        try {
+            const res = await api.post('/inventory/add', formData);
+            return res.data
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro ao adicionar item");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    },
+
+    async updateItem(id, formData) {
+        try {
+            const res = await api.patch(`/inventory/update/${id}`, formData);
+            return res.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro ao atualizar item");
             }
             throw new Error('Erro desconhecido');
         }
@@ -30,6 +66,18 @@ export const inventoryService = {
         } catch (error) {
             if (error.response) {
                 throw new Error(error.response.message || "Erro ao atualizar quantidade");
+            }
+            throw new Error('Erro desconhecido');
+        }
+    },
+
+    async deleteItem(id) {
+        try {
+            const res = await api.delete(`/inventory/delete/${id}`);
+            return res.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.message || "Erro ao deletar item");
             }
             throw new Error('Erro desconhecido');
         }
