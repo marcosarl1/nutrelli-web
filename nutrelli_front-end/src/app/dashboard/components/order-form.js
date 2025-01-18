@@ -1,6 +1,6 @@
 import {DialogClose, DialogFooter} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {CalendarIcon, Loader2, Plus, Trash2} from "lucide-react";
+import {AlertCircle, CalendarIcon, Loader2, Plus, Trash2} from "lucide-react";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {useCallback, useEffect, useState} from "react";
@@ -13,8 +13,11 @@ import productsService from "@/services/productsService";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ordersService} from "@/services/ordersService";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 
 export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses = []}) {
+    const isOrderLocked = initialData &&
+        (initialData.orderStatus === "Finalizado" || initialData.orderStatus === "Cancelado");
     const defaultStatus = statuses.find(status => status.name === "PENDENTE") || statuses[0];
     const [formData, setFormData] = useState({
         id: "",
@@ -86,8 +89,6 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
 
         if (!formData.orderDate) {
             newErrors.orderDate = "Por favor, selecione a data de entrega"
-        } else if (new Date(formData.orderDate) < new Date()) {
-            newErrors.orderDate = "A data de entrega deve ser futura"
         }
 
         formData.orderedProducts.forEach((product, index) => {
@@ -214,6 +215,24 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
 
     const currentStatus = statuses.find(status => status.name === formData.orderStatus || status.description === formData.orderStatus);
 
+    if (isOrderLocked) {
+        return (
+            <div className={"space-y-4"}>
+                <Alert variant={"destructive"}>
+                    <AlertCircle className={"h-4 w-4"}/>
+                    <AlertDescription className={"mt-1.5"}>
+                        Este pedido não pode ser editado pois está {initialData.orderStatus.toLowerCase()}.
+                    </AlertDescription>
+                </Alert>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type={"button"} variant={"outline"}>Fechar</Button>
+                    </DialogClose>
+                </DialogFooter>
+            </div>
+        );
+    }
+
     return (
         <form onSubmit={handleSubmit} className={"space-y-6"}>
             <div className={"space-y-2"}>
@@ -223,7 +242,8 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                     value={formData.customer}
                     onChange={(e) => handleChange("customer", e.target.value)}
                     placeholder={"Digite o nome do cliete"}
-                    className={errors.customer ? "border-red-500" : ""}/>
+                    className={errors.customer ? "border-red-500" : ""}
+                    disabled={isOrderLocked}/>
                 {errors.customer && (
                     <p className={"text-sm text-red-500"}>{errors.customer}</p>
                 )}
@@ -234,7 +254,8 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                     <PopoverTrigger asChild>
                         <Button
                             variant={"outline"}
-                            className={cn("w-full justify-start font-normal", errors.orderDate ? "border-red-500" : "")}>
+                            className={cn("w-full justify-start font-normal", errors.orderDate ? "border-red-500" : "")}
+                            disabled={isOrderLocked}>
                             <CalendarIcon className={"w-4 h-4 mr-2 opacity-50"}/>
                             {formData.orderDate ? (
                                 format(formData.orderDate, "PPP", {locale: ptBR})
@@ -248,6 +269,7 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                             mode={"single"}
                             selected={formData.orderDate}
                             onSelect={(date) => handleChange("orderDate", date)}
+                            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                         />
                     </PopoverContent>
                 </Popover>
@@ -272,7 +294,8 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                                         variant={"outline"}
                                         role={"combobox"}
                                         aria-expanded={openCombobox}
-                                        className={cn("w-full justify-between", errors[`orderedProducts[${index}].productName`] ? "border-red-500" : "")}>
+                                        className={cn("w-full justify-between", errors[`orderedProducts[${index}].productName`] ? "border-red-500" : "")}
+                                        disabled={isOrderLocked}>
                                         {product.productName || "Selecione um produto"}
                                     </Button>
                                 </PopoverTrigger>
@@ -302,23 +325,23 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                                 className={cn("w-24", errors[`orderedProducts[${index}].quantity`] ? "border-red-500" : "")}
                                 value={product.quantity}
                                 onChange={(e) => handleQuantityChange(index, e.target.value)}
-                            />
+                                disabled={isOrderLocked}/>
                             <Button
                                 type={"button"}
                                 variant={"outline"}
                                 size={"icon"}
                                 className={"p-3"}
                                 onClick={() => deleteProductField(index)}
-                                disabled={formData.orderedProducts.length === 1}>
+                                disabled={formData.orderedProducts.length === 1 || isOrderLocked}>
                                 <Trash2 className={"h-4 w-4 text-red-500 "}/>
                             </Button>
 
                         </div>
                         {errors[`orderedProducts[${index}].productName`] && (
                             <p className={"text-sm text-red-500"}>{errors[`orderedProducts[${index}].productName`]}</p>
-                        )}  {errors[`orderedProducts[${index}].quantity`] && (
-                            <p className={"text-sm text-red-500"}>{errors[`orderedProducts[${index}].quantity`]}</p>
-                        )}
+                        )} {errors[`orderedProducts[${index}].quantity`] && (
+                        <p className={"text-sm text-red-500"}>{errors[`orderedProducts[${index}].quantity`]}</p>
+                    )}
                     </div>
                 ))}
                 <Button
@@ -326,7 +349,8 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                     variant={"outline"}
                     size={"sm"}
                     className={"mt-2"}
-                    onClick={addProductField}>
+                    onClick={addProductField}
+                    disabled={isOrderLocked}>
                     <Plus className={"h-4 w-4 mr-2"}/>
                     Adicionar produto
                 </Button>
@@ -335,7 +359,8 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                 <Label>Tipo de pagamento</Label>
                 <Select
                     value={formData.paymentTypeId}
-                    onValueChange={(value) => handleChange("paymentTypeId", value)}>
+                    onValueChange={(value) => handleChange("paymentTypeId", value)}
+                    disabled={isOrderLocked}>
                     <SelectTrigger className={errors.paymentTypeId ? "border-red-500" : ""}>
                         <SelectValue placeholder={"Selecione o tipo de pagamento"}>
                             {paymentTypes?.find(pt => pt.id.toString() === formData.paymentTypeId)?.name}
@@ -360,7 +385,7 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                 <Select
                     value={formData.orderStatus}
                     onValueChange={(value) => handleChange("orderStatus", value)}
-                    disabled={!initialData}>
+                    disabled={!initialData || isOrderLocked}>
                     <SelectTrigger>
                         <SelectValue>{currentStatus?.description || "Selecione um status"}</SelectValue>
                     </SelectTrigger>
@@ -377,7 +402,7 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                         Cancelar
                     </Button>
                 </DialogClose>
-                <Button type="submit" className="bg-red-900 hover:bg-red-900/90" disabled={isSubmitting}>
+                <Button type="submit" className="bg-red-900 hover:bg-red-900/90" disabled={isSubmitting || isOrderLocked}>
                     {isSubmitting ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
