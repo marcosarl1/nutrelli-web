@@ -44,27 +44,19 @@ public class InventoryController {
     public ResponseEntity<Page<InventoryDTO>> findAllInventoryPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String name) {
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) boolean lowStock) {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Inventory> inventory;
 
-        if (name != null && !name.isEmpty()) {
+        if (lowStock) {
+            inventory = inventoryService.findLowStockItems(pageable);
+        } else if (name != null && !name.isEmpty()) {
             inventory = inventoryService.findInventoryByNameContaining(name, pageable);
         } else {
             inventory = inventoryService.findAllInventoryPage(pageable);
         }
-
-        return ResponseEntity.ok(inventory.map(inventoryMapper::toDTO));
-    }
-
-    @GetMapping("/low-stock")
-    public ResponseEntity<Page<InventoryDTO>> findLowStockItems(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Inventory> inventory = inventoryService.findLowStockItems(pageable);
 
         return ResponseEntity.ok(inventory.map(inventoryMapper::toDTO));
     }
