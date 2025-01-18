@@ -273,12 +273,22 @@ export default function Orders() {
                                         })}
                                     </TableCell>
                                     <TableCell className={"hidden sm:table-cell"}>
-                                        <Badge variant={"secondary"} className={"px-3 py-0.5"}>
+                                        <Badge variant={"outline"} className={cn("px-3 py-0.5",
+                                            order.orderStatus === "Pendente" && "bg-yellow-100 text-yellow-800",
+                                            order.orderStatus === "Em preparo" && "bg-blue-100 text-blue-800",
+                                            order.orderStatus === "Pronto para retirada" && "bg-purple-100 text-purple-800",
+                                            order.orderStatus === "Finalizado" && "bg-green-100 text-green-800",
+                                            order.orderStatus === "Cancelado" && "bg-red-100 text-red-800")}>
                                             {order.orderStatus}
                                         </Badge>
                                     </TableCell>
                                     <TableCell className={"sm:hidden"}>
-                                        <Badge variant="secondary" className={"px-3 py-0.5"}>
+                                        <Badge variant="outline" className={cn("px-3 py-0.5",
+                                            order.orderStatus === "Pendente" && "bg-yellow-100 text-yellow-800",
+                                            order.orderStatus === "Em preparo" && "bg-blue-100 text-blue-800",
+                                            order.orderStatus === "Pronto para retirada" && "bg-purple-100 text-purple-800",
+                                            order.orderStatus === "Finalizado" && "bg-green-100 text-green-800",
+                                            order.orderStatus === "Cancelado" && "bg-red-100 text-red-800")}>
                                             {order.orderStatus.substring(0, 3)}
                                         </Badge>
                                     </TableCell>
