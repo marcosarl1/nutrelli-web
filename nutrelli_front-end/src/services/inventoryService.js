@@ -47,7 +47,7 @@ export const inventoryService = {
 
     async updateItem(id, formData) {
         try {
-            const res = await api.patch(`/inventory/update/${id}`, formData);
+            const res = await api.put(`/inventory/update/${id}`, formData);
             return res.data;
         } catch (error) {
             if (error.response) {
