@@ -86,8 +86,6 @@ export function InventoryForm({onSubmit, isSubmitting, initialData}) {
         if (validateForm()) {
             onSubmit({
                 ...formData,
-                quantity: parseFloat(formData.quantity),
-                minimumQuantity: parseFloat(formData.minimumQuantity),
             });
         }
     };
