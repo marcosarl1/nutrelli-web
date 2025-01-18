@@ -52,7 +52,7 @@ export const productsService = {
             return res.data;
         } catch (error) {
             if (error.response) {
-                throw new Error(error.response.message || "Erro ao adicionar produto");
+                throw new Error(error.response.message || "Erro ao editar produto");
             }
             throw new Error('Erro desconhecido');
         }
@@ -64,7 +64,7 @@ export const productsService = {
             return res.data;
         } catch (error) {
             if (error.response) {
-                throw new Error(error.response.message || "Erro ao adicionar produto");
+                throw new Error(error.response.message || "Erro ao deletar produto");
             }
             throw new Error('Erro desconhecido');
         }
