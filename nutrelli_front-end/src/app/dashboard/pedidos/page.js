@@ -264,7 +264,11 @@ export default function Orders() {
                                         {order.customer}
                                     </TableCell>
                                     <TableCell className={"hidden sm:table-cell"}>
-                                        {new Date(order.orderDate + 'T00:00:00').toLocaleDateString()}
+                                        {new Date(order.orderDate + 'T00:00:00').toLocaleDateString('pt-BR', {
+                                            day: '2-digit',
+                                            month: '2-digit',
+                                            year: 'numeric'
+                                        })}
                                     </TableCell>
                                     <TableCell className={"sm:hidden"}>
                                         {new Date(order.orderDate + 'T00:00:00').toLocaleDateString('pt-BR', {

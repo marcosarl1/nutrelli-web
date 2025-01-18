@@ -178,7 +178,11 @@ export default function Dashboard() {
                                         <div>
                                             <p className={"font-medium"}>{order.customer}</p>
                                             <p className={"text-sm text-gray-500"}>
-                                                {new Date(order.orderDate + 'T00:00:00').toLocaleDateString()}
+                                                {new Date(order.orderDate + 'T00:00:00').toLocaleDateString('pt-BR', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })}
                                             </p>
                                         </div>
                                         <div className={"text-right"}>
@@ -208,7 +212,7 @@ export default function Dashboard() {
                 <div className={"px-4 pt-2"}>
                     <div className={"items-center justify-center text-sm text-gray-600"}>
                         <div className={"text-center"}>
-                            <p>&copy; {new Date().getFullYear()} Nutrelli. Todos os direitos reservados.</p>
+                            <p>&copy; {new Date().getFullYear()} Nutrelli. Todos os direitodas reservados.</p>
                         </div>
                     </div>
                 </div>
