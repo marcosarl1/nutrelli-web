@@ -1,6 +1,6 @@
 "use client";
 
-import {Edit, Edit3, Ellipsis, Filter, Loader2, Plus, Search, Trash2} from "lucide-react";
+import {Edit, Ellipsis, Filter, Loader2, Plus, Search, Trash2} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {useCallback, useEffect, useState} from "react";
 import {
@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/dialog";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {inventoryService} from "@/services/inventoryService";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Badge} from "@/components/ui/badge";
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel,
@@ -34,7 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import {useToast} from "@/hooks/use-toast";
 import {InventoryForm} from "@/app/dashboard/components/inventory-form";
-import productsService from "@/services/productsService";
+import {QuantityEditor} from "@/app/dashboard/components/quantity-editor";
 
 export default function Inventory() {
     const [inventory, setInventory] = useState([]);
@@ -150,7 +149,7 @@ export default function Inventory() {
         }
     }
 
-    const handleUpdateQuantity = async (itemId) => {
+    const handleUpdateQuantity = async (itemId, newQuantity) => {
         try {
             setLoading(true);
             await inventoryService.updateQuantity(itemId, parseFloat(newQuantity));
@@ -286,27 +285,11 @@ export default function Inventory() {
                                     <TableCell>
                                         <div className={"flex items-center gap-2"}>
                                             {item.quantity} {item.measurementUnit}
-                                            <Popover>
-                                                <PopoverTrigger asChild>
-                                                    <Button
-                                                        variant={"ghost"}
-                                                        size={"icon"}
-                                                        className={""}>
-                                                        <Edit3 className={"h-4 w-4"}/>
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className={"w-60"}>
-                                                    <div className={"space-y-4"}>
-                                                        <span className={"text-sm"}>Insira a nova quantidade</span>
-                                                        <Input type={"number"}
-                                                               value={newQuantity}
-                                                               onChange={(e) => setNewQuantity(e.target.value)}/>
-                                                        <Button
-                                                            className={"cursor-pointer bg-red-900 hover:bg-red-900/90"}
-                                                            onClick={() => handleUpdateQuantity(item.id)}>Salvar</Button>
-                                                    </div>
-                                                </PopoverContent>
-                                            </Popover>
+                                            <QuantityEditor
+                                                currentQuantity={item.quantity}
+                                                measurementUnit={item.measurementUnit}
+                                                onUpdate={(newQuantity) => handleUpdateQuantity(item.id, newQuantity)}
+                                                isLoading={loading}/>
                                         </div>
                                     </TableCell>
                                     <TableCell>
