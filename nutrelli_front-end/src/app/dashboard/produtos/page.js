@@ -2,23 +2,13 @@
 
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
-import {
-    CheckCircle,
-    ChevronLeft,
-    ChevronRight,
-    Edit,
-    Ellipsis,
-    Filter,
-    Loader2,
-    Plus,
-    Search,
-    Trash2, XCircle
-} from "lucide-react";
+import {CheckCircle, Edit, Ellipsis, Filter, Loader2, Plus, Search, Trash2, XCircle} from "lucide-react";
 import {useCallback, useEffect, useState} from "react";
 import {Input} from "@/components/ui/input";
 import {
     DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger
@@ -36,9 +26,12 @@ import {
 } from "@/components/ui/dialog";
 import {ProductForm} from "@/app/dashboard/components/product-form";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription, AlertDialogFooter,
+    AlertDialogDescription,
+    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";

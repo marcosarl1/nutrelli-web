@@ -5,16 +5,15 @@ import {
     SidebarGroup,
     SidebarHeader,
     SidebarSeparator,
-    SidebarTrigger,
     useSidebar
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
 import {useMemo} from "react";
-import {Archive, House, LayoutDashboard, LogOut, ShoppingBasket, Store, Users} from "lucide-react";
+import {Archive, House, LayoutDashboard, LogOut, ShoppingBasket, Store} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {logout} from "@/services/loginService";
-import {useRouter, usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {cn} from "@/lib/utils";
 import {
     AlertDialog,

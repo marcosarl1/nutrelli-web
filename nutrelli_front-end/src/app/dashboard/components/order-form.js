@@ -13,7 +13,7 @@ import productsService from "@/services/productsService";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ordersService} from "@/services/ordersService";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+import {Alert, AlertDescription} from "@/components/ui/alert";
 
 export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses = []}) {
     const isOrderLocked = initialData &&
@@ -241,7 +241,7 @@ export function OrderForm({onSubmit, isSubmitting, initialData = null, statuses 
                     id={"customer"}
                     value={formData.customer}
                     onChange={(e) => handleChange("customer", e.target.value)}
-                    placeholder={"Digite o nome do cliete"}
+                    placeholder={"Digite o nome do cliente"}
                     className={errors.customer ? "border-red-500" : ""}
                     disabled={isOrderLocked}/>
                 {errors.customer && (

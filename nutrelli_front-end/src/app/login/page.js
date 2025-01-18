@@ -4,7 +4,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {useState} from "react";
 import Logo from '../../../public/nutrelli.svg';
-import {AlertCircle, Eye, EyeOff, Loader2, Lock, Mail} from "lucide-react";
+import {AlertCircle, Eye, EyeOff, Loader2} from "lucide-react";
 import {login} from "@/services/loginService";
 import {Card, CardContent} from "@/components/ui/card";
 import {Alert, AlertDescription} from "@/components/ui/alert";

@@ -5,7 +5,8 @@ import {Input} from "@/components/ui/input";
 import {useCallback, useEffect, useState} from "react";
 import {
     DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger
@@ -25,9 +26,12 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {inventoryService} from "@/services/inventoryService";
 import {Badge} from "@/components/ui/badge";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription, AlertDialogFooter,
+    AlertDialogDescription,
+    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";
