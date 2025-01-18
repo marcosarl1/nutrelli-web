@@ -1,6 +1,6 @@
 "use client";
 
-import {Diff, Edit, Edit3, Ellipsis, Filter, Loader2, Plus, Search, Trash2} from "lucide-react";
+import {Edit, Edit3, Ellipsis, Filter, Loader2, Plus, Search, Trash2} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {useCallback, useEffect, useState} from "react";
 import {
@@ -33,6 +33,8 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 import {useToast} from "@/hooks/use-toast";
+import {InventoryForm} from "@/app/dashboard/components/inventory-form";
+import productsService from "@/services/productsService";
 
 export default function Inventory() {
     const [inventory, setInventory] = useState([]);
@@ -50,7 +52,7 @@ export default function Inventory() {
         totalPages: 1,
         totalElements: 0
     });
-    const { toast } = useToast();
+    const {toast} = useToast();
 
     const fetchInventory = useCallback(async () => {
         try {
@@ -85,6 +87,68 @@ export default function Inventory() {
         }
         fetchData();
     }, [fetchInventory]);
+
+    const handleAddItem = async (formData) => {
+        try {
+            setLoading(true);
+            await inventoryService.addItem(formData);
+            await fetchInventory();
+            toast({
+                title: <span>&#x2705; Item adicionado!</span>,
+                description: "O item foi adicionado com sucesso ao estoque."
+            });
+        } catch (error) {
+            toast({
+                title: "Erro",
+                description: error.message || "Erro ao adicionar item",
+                variant: "destructive"
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleEditItem = async (formData) => {
+        try {
+            setLoading(true);
+            await inventoryService.updateItem(selectedItem.id, formData);
+            await fetchInventory();
+            toast({
+                title: <span>&#x2705; Item adicionado!</span>,
+                description: "O item foi atualizado com sucesso ao estoque."
+            });
+        } catch (error) {
+            toast({
+                title: "Erro",
+                description: error.message || "Erro ao atualizar item",
+                variant: "destructive"
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleDeleteItem = async () => {
+        try {
+            setLoading(true);
+            await inventoryService.deleteItem(selectedItem.id);
+            setIsDeleteDialogOpen(false);
+            await fetchInventory();
+            setSelectedItem(null);
+            setPagination(prevState => ({...prevState, currentPage: 1}));
+            toast({
+                description: <span>&#x2705; Produto deletado com sucesso!</span>,
+            });
+        } catch (error) {
+            toast({
+                title: "Erro",
+                description: error.message || "Erro ao atualizar item",
+                variant: "destructive"
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const handleUpdateQuantity = async (itemId) => {
         try {
@@ -179,7 +243,13 @@ export default function Inventory() {
                             <DialogTitle>Adicionar item ao estoque</DialogTitle>
                             <DialogDescription>Preencha os dados do novo item</DialogDescription>
                         </DialogHeader>
-
+                        <InventoryForm
+                            onSubmit={async (formData) => {
+                                await handleAddItem(formData);
+                                setIsDialogOpen(false)
+                            }}
+                            isSubmitting={loading}
+                        />
                     </DialogContent>
                 </Dialog>
             </div>
@@ -277,7 +347,14 @@ export default function Inventory() {
                                                     <DialogTitle>Editar item no estoque</DialogTitle>
                                                     <DialogDescription>Altere os dados do item</DialogDescription>
                                                 </DialogHeader>
-
+                                                <InventoryForm
+                                                    onSubmit={async (formData) => {
+                                                        await handleEditItem(formData);
+                                                        setIsDialogOpen(false)
+                                                    }}
+                                                    isSubmitting={loading}
+                                                    initialData={selectedItem}
+                                                />
                                             </DialogContent>
                                         </Dialog>
                                     </TableCell>
@@ -307,7 +384,8 @@ export default function Inventory() {
                         <AlertDialogCancel onClick={() => setIsDeleteDialogOpen(false)}>Cancelar</AlertDialogCancel>
                         <AlertDialogAction
                             className={"bg-red-600 hover:bg-red-700 focus:ring-red-600"}
-                            disabled={loading}>
+                            disabled={loading}
+                            onClick={handleDeleteItem}>
                             {loading ? (
                                 <>
                                     <Loader2 className={"h-4 w-4 animate-spin mr-2"}/>
