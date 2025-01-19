@@ -8,6 +8,7 @@ import com.nutrelliapi.service.LoginService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody EmployeeDTO employeeDTO, HttpServletResponse response) {
+    public ResponseEntity<?> login(@Valid @RequestBody EmployeeDTO employeeDTO, HttpServletResponse response) {
         try {
             Employee employee = loginService.authLogin(employeeDTO.getEmail(), employeeDTO.getPassword());
             String token = JwtTokenFilter.generateToken(employeeDTO.getEmail());

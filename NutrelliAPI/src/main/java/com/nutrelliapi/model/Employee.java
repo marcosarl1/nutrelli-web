@@ -1,6 +1,9 @@
 package com.nutrelliapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "funcionario")
@@ -11,11 +14,16 @@ public class Employee {
     private Integer id;
 
     @Column(name = "nome")
+    @NotBlank(message = "O nome é obrigatório")
+    @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
     private String name;
 
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "O email deve ser válido")
     private String email;
 
     @Column(name = "senha")
+    @NotBlank(message = "A senha é obrigatória")
     private String password;
 
     public Employee() {}
