@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -107,9 +108,16 @@ public class OrderServiceImpl implements OrderService {
         existingOrder.setOrderDate(order.getOrderDate());
         existingOrder.setOrderStatus(order.getOrderStatus());
         validatePaymentType(order);
-        existingOrder.getOrderedProducts().clear();
-        validateOrderedProducts(order);
-        existingOrder.getOrderedProducts().addAll(order.getOrderedProducts());
+
+        if (existingOrder.getOrderedProducts() == null) {
+            existingOrder.setOrderedProducts(new ArrayList<>());
+        }
+
+        if (order.getOrderedProducts() != null) {
+            existingOrder.getOrderedProducts().clear();
+            validateOrderedProducts(order);
+            existingOrder.getOrderedProducts().addAll(order.getOrderedProducts());
+        }
     }
 
     private void calculateTotalValue(Order order) {
