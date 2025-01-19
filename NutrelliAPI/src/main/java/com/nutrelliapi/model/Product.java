@@ -14,7 +14,7 @@ public class Product {
     private String name;
     
     @Column(name = "preco")
-    private Double price;
+    private Double price = 0.0;
     
     @ManyToOne
     @JoinColumn(name = "categoria_id")
