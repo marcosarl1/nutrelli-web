@@ -27,7 +27,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody EmployeeDTO employeeDTO, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody EmployeeDTO employeeDTO, HttpServletResponse response) {
         try {
             Employee employee = loginService.authLogin(employeeDTO.getEmail(), employeeDTO.getPassword());
             String token = JwtTokenFilter.generateToken(employeeDTO.getEmail());

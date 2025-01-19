@@ -25,11 +25,9 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pedido")
-    @NotNull(message = "O status do pedido é obrigatório")
     private OrderStatus orderStatus;
 
     @Column(name = "valor_total")
-    @NotNull(message = "O valor total do pedido é obrigatório")
     @PositiveOrZero(message = "O valor total do pedido deve ser positivo ou zero")
     private Double totalValue;
 

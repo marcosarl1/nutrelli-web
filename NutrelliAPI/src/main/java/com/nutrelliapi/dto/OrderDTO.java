@@ -17,10 +17,8 @@ public class OrderDTO {
     @FutureOrPresent(message = "A data de entrega do pedido deve ser no presente ou no futuro")
     private LocalDate orderDate;
 
-    @NotBlank(message = "O status do pedido é obrigatório")
     private String orderStatus;
 
-    @NotNull(message = "O valor total do pedido é obrigatório")
     @PositiveOrZero(message = "O valor total do pedido deve ser positivo ou zero")
     private Double totalValue;
 
