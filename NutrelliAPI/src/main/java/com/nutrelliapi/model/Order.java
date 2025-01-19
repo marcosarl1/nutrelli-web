@@ -1,6 +1,7 @@
 package com.nutrelliapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,23 +14,31 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "O nome do client é obrigatório")
     private String customer;
 
     @Column(name = "data_pedido")
+    @NotNull(message = "A data de entrega do pedido é obrigatória")
+    @FutureOrPresent(message = "A data de entrega do pedido deve ser no presente ou no futuro")
     private LocalDate orderDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pedido")
+    @NotNull(message = "O status do pedido é obrigatório")
     private OrderStatus orderStatus;
 
     @Column(name = "valor_total")
+    @NotNull(message = "O valor total do pedido é obrigatório")
+    @PositiveOrZero(message = "O valor total do pedido deve ser positivo ou zero")
     private Double totalValue;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_pagamento")
+    @NotNull(message = "O tipo de pagamento é obrigatório")
     private PaymentType paymentType;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotEmpty(message = "O pedido deve conter pelo menos um produto")
     private List<OrderedProduct> orderedProducts;
 
     public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<OrderedProduct> orderedProducts) {

@@ -5,6 +5,8 @@ import com.nutrelliapi.mapper.OrderMapper;
 import com.nutrelliapi.model.Order;
 import com.nutrelliapi.model.OrderStatus;
 import com.nutrelliapi.service.OrderService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,8 +45,8 @@ public class OrderController {
 
     @GetMapping("/page")
     public ResponseEntity<Page<OrderDTO>> findAllOrdersPage(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size,
             @RequestParam(required = false) String customer,
             @RequestParam(required = false) OrderStatus orderStatus) {
         Pageable pageable = PageRequest.of(page, size);
@@ -62,14 +64,14 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<OrderDTO> saveOrder(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<OrderDTO> saveOrder(@Valid @RequestBody OrderDTO orderDTO) {
         Order order = orderMapper.toEntity(orderDTO);
         Order savedOrder = orderService.saveOrder(order);
         return new ResponseEntity<>(orderMapper.toDto(savedOrder), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Integer id, @RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Integer id, @Valid @RequestBody OrderDTO orderDTO) {
         Order order = orderMapper.toEntity(orderDTO);
         Order updatedOrder = orderService.updateOrder(id, order);
         return ResponseEntity.ok(orderMapper.toDto(updatedOrder));

@@ -1,17 +1,33 @@
 package com.nutrelliapi.dto;
 
 import com.nutrelliapi.model.Order;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class OrderDTO {
     private Integer id;
+
+    @NotBlank(message = "O nome do client é obrigatório")
+    @Size(max = 100, message = "O nome do cliente deve ter no máximo 100 caracteres")
     private String customer;
+
+    @NotNull(message = "A data de entrega do pedido é obrigatória")
+    @FutureOrPresent(message = "A data de entrega do pedido deve ser no presente ou no futuro")
     private LocalDate orderDate;
+
+    @NotBlank(message = "O status do pedido é obrigatório")
     private String orderStatus;
+
+    @NotNull(message = "O valor total do pedido é obrigatório")
+    @PositiveOrZero(message = "O valor total do pedido deve ser positivo ou zero")
     private Double totalValue;
+
+    @NotNull(message = "O tipo de pagamento é obrigatório")
     private PaymentTypeDTO paymentType;
+
+    @NotEmpty(message = "O pedido deve conter pelo menos um produto")
     private List<OrderedProductDTO> orderedProducts;
 
     public OrderDTO() {
