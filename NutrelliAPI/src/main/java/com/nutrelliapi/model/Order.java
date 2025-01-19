@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,7 +40,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotEmpty(message = "O pedido deve conter pelo menos um produto")
-    private List<OrderedProduct> orderedProducts;
+    private List<OrderedProduct> orderedProducts = new ArrayList<>();
 
     public Order(Integer id, String customer, LocalDate orderDate, OrderStatus orderStatus, Double totalValue, PaymentType paymentType, List<OrderedProduct> orderedProducts) {
         this.id = id;
@@ -48,7 +49,7 @@ public class Order {
         this.orderStatus = orderStatus;
         this.totalValue = totalValue;
         this.paymentType = paymentType;
-        this.orderedProducts = orderedProducts;
+        this.orderedProducts = orderedProducts != null ? orderedProducts : new ArrayList<>();
     }
 
     public Order() {}
