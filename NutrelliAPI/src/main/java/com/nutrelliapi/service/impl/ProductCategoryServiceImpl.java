@@ -46,7 +46,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public void deleteProductCategory(Integer id) {
         if (!productCategoryRepository.existsById(id)) {
-            throw new ProductNotFoundException("Categoria de produto não encontrada");
+            throw new ProductCategoryNotFoundException("Categoria de produto não encontrada");
         }
         productCategoryRepository.deleteById(id);
     }
