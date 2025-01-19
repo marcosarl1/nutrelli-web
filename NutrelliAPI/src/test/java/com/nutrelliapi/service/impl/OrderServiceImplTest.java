@@ -1,7 +1,5 @@
 package com.nutrelliapi.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.nutrelliapi.exception.OrderNotFoundException;
 import com.nutrelliapi.exception.PaymentTypeNotFoundException;
 import com.nutrelliapi.exception.ProductNotFoundException;
@@ -22,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class OrderServiceImplTest {

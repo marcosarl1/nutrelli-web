@@ -1,7 +1,6 @@
 package com.nutrelliapi.service.impl;
 
 import com.nutrelliapi.exception.ProductCategoryNotFoundException;
-import com.nutrelliapi.exception.ProductNotFoundException;
 import com.nutrelliapi.model.ProductCategory;
 import com.nutrelliapi.repository.ProductCategoryRepository;
 import com.nutrelliapi.service.ProductCategoryService;

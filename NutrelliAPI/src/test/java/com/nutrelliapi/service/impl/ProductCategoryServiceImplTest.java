@@ -3,7 +3,6 @@ package com.nutrelliapi.service.impl;
 import com.nutrelliapi.exception.ProductCategoryNotFoundException;
 import com.nutrelliapi.model.ProductCategory;
 import com.nutrelliapi.repository.ProductCategoryRepository;
-import com.nutrelliapi.service.impl.ProductCategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

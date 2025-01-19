@@ -3,7 +3,6 @@ package com.nutrelliapi.service.impl;
 import com.nutrelliapi.exception.PaymentTypeNotFoundException;
 import com.nutrelliapi.model.PaymentType;
 import com.nutrelliapi.repository.PaymentTypeRepository;
-import com.nutrelliapi.service.impl.PaymentTypeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
